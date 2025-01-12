@@ -12,7 +12,7 @@ var rabbitPass = builder.AddParameter("RabbitPassword", true);
 
 var postgres = builder
     .AddPostgres("postgres", postgresUser, postgresPassword, 5432)
-    .WithPgWeb()
+    .WithPgAdmin()
     .WithDataBindMount("../../../mnt/postgres")
     .WithLifetime(ContainerLifetime.Persistent);
 
@@ -59,7 +59,7 @@ builder
     .WithHttpEndpoint(8080, 8080, "dapr-dashboard", isProxied: false)
     .ExcludeFromManifest();
 
-builder
+var catalogApi = builder
     .AddProject<BookWorm_Catalog>("bookworm-catalog")
     .WithDaprSidecar(o => o.WithOptions(new DaprSidecarOptions { DaprHttpPort = 3500 }))
     .WithReference(catalogDb)
@@ -68,30 +68,42 @@ builder
     .WaitFor(blobs)
     .WaitFor(catalogDb);
 
-builder
+var basketApi = builder
     .AddProject<BookWorm_Basket>("bookworm-basket")
     .WithDaprSidecar(o => o.WithOptions(new DaprSidecarOptions { DaprHttpPort = 3600 }))
     .WithReference(pubSub);
 
-builder
+var orderingApi = builder
     .AddProject<BookWorm_Ordering>("bookworm-ordering")
     .WithDaprSidecar(o => o.WithOptions(new DaprSidecarOptions { DaprHttpPort = 3700 }))
     .WithReference(orderingDb)
     .WithReference(pubSub)
     .WaitFor(orderingDb);
 
-builder
+var ratingApi = builder
     .AddProject<BookWorm_Rating>("bookworm-rating")
     .WithDaprSidecar(o => o.WithOptions(new DaprSidecarOptions { DaprHttpPort = 3800 }))
     .WithReference(ratingDb)
     .WithReference(pubSub)
     .WaitFor(ratingDb);
 
-builder
+var customerApi = builder
     .AddProject<BookWorm_Customer>("bookworm-customer")
     .WithDaprSidecar(o => o.WithOptions(new DaprSidecarOptions { DaprHttpPort = 3900 }))
     .WithReference(customerDb)
     .WithReference(pubSub)
     .WaitFor(customerDb);
+
+builder
+    .AddProject<BookWorm_ApiGateway>("bookworm-apigateway")
+    .WithReference(catalogApi)
+    .WithReference(basketApi)
+    .WithReference(orderingApi)
+    .WithReference(ratingApi)
+    .WaitFor(catalogApi)
+    .WaitFor(basketApi)
+    .WaitFor(orderingApi)
+    .WaitFor(ratingApi)
+    .WaitFor(customerApi);
 
 builder.Build().Run();

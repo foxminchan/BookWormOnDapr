@@ -1,4 +1,7 @@
 ﻿using System.Text.Json;
+using BookWor.Constants;
+using BookWorm.Catalog.Infrastructure.Blob;
+using BookWorm.Catalog.Infrastructure.Data;
 using BookWorm.ServiceDefaults;
 using BookWorm.SharedKernel.ActivityScope;
 using BookWorm.SharedKernel.Command;
@@ -21,11 +24,11 @@ internal static class Extensions
 
         builder.AddVersioning();
 
-        builder.AddOpenApi();
-
         builder.Services.AddDaprClient();
 
-        builder.AddEndpoints(typeof(ICatalogApiMarker));
+        builder.AddOpenApi();
+
+        builder.Services.AddEndpoints(typeof(ICatalogApiMarker));
 
         builder.Services.Configure<JsonOptions>(options =>
         {
@@ -54,5 +57,11 @@ internal static class Extensions
         builder.Services.AddSingleton<IActivityScope, ActivityScope>();
         builder.Services.AddSingleton<CommandHandlerMetrics>();
         builder.Services.AddSingleton<QueryHandlerMetrics>();
+
+        builder.AddPersistence();
+
+        builder.AddAzureBlobClient(ServiceName.Blob);
+
+        builder.Services.AddSingleton<IBlobService, BlobService>();
     }
 }

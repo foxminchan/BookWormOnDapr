@@ -2,20 +2,25 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace BookWorm.SharedKernel.Endpoints;
 
 public static class Extensions
 {
-    public static void AddEndpoints(this IHostApplicationBuilder builder, Type type)
+    public static IServiceCollection AddEndpoints(this IServiceCollection services, Type type)
     {
-        builder.Services.Scan(scan =>
-            scan.FromAssembliesOf(type)
-                .AddClasses(classes => classes.AssignableTo<IEndpoint>())
-                .AsImplementedInterfaces()
-                .WithScopedLifetime()
-        );
+        ServiceDescriptor[] serviceDescriptors = type
+            .Assembly.DefinedTypes.Where(type =>
+                type is { IsAbstract: false, IsInterface: false }
+                && type.IsAssignableTo(typeof(IEndpoint))
+            )
+            .Select(type => ServiceDescriptor.Transient(typeof(IEndpoint), type))
+            .ToArray();
+
+        services.TryAddEnumerable(serviceDescriptors);
+
+        return services;
     }
 
     public static IApplicationBuilder MapEndpoints(

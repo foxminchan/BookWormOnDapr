@@ -25,7 +25,7 @@ internal static class Extensions
 
         builder.Services.AddDaprClient();
 
-        builder.AddEndpoints(typeof(IBasketApiMarker));
+        builder.Services.AddEndpoints(typeof(IBasketApiMarker));
 
         builder.Services.Configure<JsonOptions>(options =>
         {
