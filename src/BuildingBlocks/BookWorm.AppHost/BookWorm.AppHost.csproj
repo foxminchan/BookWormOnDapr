@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\BookWorm.ApiGateway\BookWorm.ApiGateway.csproj" />
     <ProjectReference Include="..\..\Services\Basket\BookWorm.Basket\BookWorm.Basket.csproj" />
     <ProjectReference Include="..\..\Services\Catalog\BookWorm.Catalog\BookWorm.Catalog.csproj" />
     <ProjectReference Include="..\..\Services\Customer\BookWorm.Customer\BookWorm.Customer.csproj" />

@@ -39,6 +39,8 @@ public static class OpenApiExtension
             );
         }
 
+        builder.Services.AddEndpointsApiExplorer();
+
         return builder;
     }
 
