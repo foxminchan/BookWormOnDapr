@@ -12,7 +12,6 @@ using BookWorm.SharedKernel.Pipelines;
 using BookWorm.SharedKernel.Query;
 using BookWorm.SharedKernel.Versioning;
 using FluentValidation;
-using Microsoft.AspNetCore.Http.Json;
 
 namespace BookWorm.Catalog.Extensions;
 
@@ -30,12 +29,14 @@ internal static class Extensions
 
         builder.Services.AddEndpoints(typeof(ICatalogApiMarker));
 
-        builder.Services.Configure<JsonOptions>(options =>
-        {
-            options.SerializerOptions.PropertyNameCaseInsensitive = true;
-            options.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-            options.SerializerOptions.Converters.Add(new StringTrimmerJsonConverter());
-        });
+        builder.Services.AddSingleton(
+            new JsonSerializerOptions()
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                PropertyNameCaseInsensitive = true,
+                Converters = { new StringTrimmerJsonConverter() },
+            }
+        );
 
         builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
         builder.Services.AddExceptionHandler<GlobalExceptionHandler>();

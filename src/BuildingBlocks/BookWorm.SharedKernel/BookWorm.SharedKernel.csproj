@@ -7,6 +7,7 @@
   <ItemGroup>
     <PackageReference Include="MediatR" />
     <PackageReference Include="Scrutor" />
+    <PackageReference Include="Dapr.AspNetCore" />
     <PackageReference Include="FluentValidation.AspNetCore" />
     <PackageReference Include="OpenTelemetry.Extensions.Hosting" />
     <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
@@ -23,6 +24,10 @@
     <PackageReference Include="Ardalis.Specification.EntityFrameworkCore" />
     <PackageReference Include="Ardalis.Result.AspNetCore" />
     <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BookWorm.Constants\BookWorm.Constants.csproj" />
   </ItemGroup>
 
 </Project>

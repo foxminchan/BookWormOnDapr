@@ -36,7 +36,10 @@ var rabbitMq = builder
     .WithEndpoint("tcp", e => e.Port = 5672)
     .WithEndpoint("management", e => e.Port = 15672);
 
-var stateStore = builder.AddDaprStateStore(ServiceName.Component.Store);
+var stateStore = builder.AddDaprStateStore(
+    ServiceName.Component.Store,
+    new DaprComponentOptions { LocalPath = "../../../dapr/components/statestore.yaml" }
+);
 
 var pubSub = builder
     .AddDaprPubSub(
