@@ -44,7 +44,7 @@ internal sealed class UpdateBookHandler(IRepository<Book> repository, IBlobServi
 
         book.Update(request.Name, request.Description, imageUrl, request.Price);
 
-        await repository.UpdateAsync(book, cancellationToken);
+        await repository.SaveChangesAsync(cancellationToken);
 
         return Result.NoContent();
     }

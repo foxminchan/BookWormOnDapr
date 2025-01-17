@@ -1,4 +1,6 @@
 ﻿using System.Text.Json;
+using BookWorm.Basket.Domain;
+using BookWorm.Basket.Repositories;
 using BookWorm.ServiceDefaults;
 using BookWorm.SharedKernel.ActivityScope;
 using BookWorm.SharedKernel.Command;
@@ -27,12 +29,14 @@ internal static class Extensions
 
         builder.Services.AddEndpoints(typeof(IBasketApiMarker));
 
-        builder.Services.Configure<JsonOptions>(options =>
-        {
-            options.SerializerOptions.PropertyNameCaseInsensitive = true;
-            options.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-            options.SerializerOptions.Converters.Add(new StringTrimmerJsonConverter());
-        });
+        builder.Services.AddSingleton(
+            new JsonSerializerOptions()
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                PropertyNameCaseInsensitive = true,
+                Converters = { new StringTrimmerJsonConverter() },
+            }
+        );
 
         builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
         builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
@@ -53,5 +57,7 @@ internal static class Extensions
         builder.Services.AddSingleton<IActivityScope, ActivityScope>();
         builder.Services.AddSingleton<CommandHandlerMetrics>();
         builder.Services.AddSingleton<QueryHandlerMetrics>();
+
+        builder.Services.AddScoped<IBasketRepository, DaprBasketRepository>();
     }
 }

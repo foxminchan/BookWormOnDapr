@@ -2,14 +2,12 @@
 
   <ItemGroup>
     <PackageReference Include="Bogus" />
-    <PackageReference Include="Dapr.AspNetCore" />
     <PackageReference Include="Ardalis.GuardClauses" />
     <PackageReference Include="Aspire.Azure.Storage.Blobs" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\BuildingBlocks\BookWorm.Constants\BookWorm.Constants.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\BookWorm.ServiceDefaults\BookWorm.ServiceDefaults.csproj" />
   </ItemGroup>
 
