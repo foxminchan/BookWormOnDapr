@@ -1,5 +1,5 @@
 ﻿using Aspire.Hosting.Dapr;
-using BookWor.Constants;
+using BookWorm.Constants;
 using Microsoft.Extensions.Hosting;
 using Projects;
 
@@ -20,6 +20,7 @@ var catalogDb = builder.AddPostgres(ServiceName.Database.Catalog);
 var orderingDb = builder.AddPostgres(ServiceName.Database.Ordering);
 var ratingDb = builder.AddPostgres(ServiceName.Database.Rating);
 var customerDb = builder.AddPostgres(ServiceName.Database.Customer);
+var inventoryDb = builder.AddPostgres(ServiceName.Database.Inventory);
 
 var storage = builder.AddAzureStorage("storage");
 
@@ -48,6 +49,11 @@ var pubSub = builder
     )
     .WaitFor(rabbitMq);
 
+var keycloak = builder
+    .AddKeycloak(ServiceName.Keycloak, 5000)
+    .WithDataBindMount("../../../mnt/keycloak")
+    .WithExternalHttpEndpoints();
+
 var daprOptions = new DaprSidecarOptions
 {
     LogLevel = "debug",
@@ -68,34 +74,58 @@ var catalogApi = builder
     .WithReference(catalogDb)
     .WithReference(blobs)
     .WithReference(pubSub)
+    .WithReference(keycloak)
     .WaitFor(blobs)
-    .WaitFor(catalogDb);
+    .WaitFor(catalogDb)
+    .WaitFor(keycloak);
 
 var basketApi = builder
     .AddProject<BookWorm_Basket>("bookworm-basket")
     .WithDaprSidecar(o => o.WithOptions(new DaprSidecarOptions { DaprHttpPort = 3600 }))
-    .WithReference(pubSub);
+    .WithReference(pubSub)
+    .WithReference(keycloak)
+    .WithReference(stateStore)
+    .WaitFor(keycloak);
 
 var orderingApi = builder
     .AddProject<BookWorm_Ordering>("bookworm-ordering")
     .WithDaprSidecar(o => o.WithOptions(new DaprSidecarOptions { DaprHttpPort = 3700 }))
     .WithReference(orderingDb)
     .WithReference(pubSub)
-    .WaitFor(orderingDb);
+    .WithReference(keycloak)
+    .WaitFor(orderingDb)
+    .WaitFor(keycloak);
 
 var ratingApi = builder
     .AddProject<BookWorm_Rating>("bookworm-rating")
     .WithDaprSidecar(o => o.WithOptions(new DaprSidecarOptions { DaprHttpPort = 3800 }))
     .WithReference(ratingDb)
     .WithReference(pubSub)
-    .WaitFor(ratingDb);
+    .WithReference(keycloak)
+    .WaitFor(ratingDb)
+    .WaitFor(keycloak);
 
 var customerApi = builder
     .AddProject<BookWorm_Customer>("bookworm-customer")
     .WithDaprSidecar(o => o.WithOptions(new DaprSidecarOptions { DaprHttpPort = 3900 }))
     .WithReference(customerDb)
     .WithReference(pubSub)
-    .WaitFor(customerDb);
+    .WithReference(keycloak)
+    .WaitFor(customerDb)
+    .WaitFor(keycloak);
+
+var inventoryApi = builder
+    .AddProject<BookWorm_Inventory>("bookworm-inventory")
+    .WithDaprSidecar(o => o.WithOptions(new DaprSidecarOptions { DaprHttpPort = 4000 }))
+    .WithReference(inventoryDb)
+    .WithReference(pubSub)
+    .WithReference(keycloak)
+    .WaitFor(inventoryDb)
+    .WaitFor(keycloak);
+
+builder
+    .AddProject<BookWorm_Notification>("bookworm-notification")
+    .WithDaprSidecar(o => o.WithOptions(new DaprSidecarOptions { DaprHttpPort = 4100 }));
 
 builder
     .AddProject<BookWorm_ApiGateway>("bookworm-apigateway")
@@ -103,10 +133,13 @@ builder
     .WithReference(basketApi)
     .WithReference(orderingApi)
     .WithReference(ratingApi)
+    .WithReference(customerApi)
+    .WithReference(inventoryApi)
     .WaitFor(catalogApi)
     .WaitFor(basketApi)
     .WaitFor(orderingApi)
     .WaitFor(ratingApi)
-    .WaitFor(customerApi);
+    .WaitFor(customerApi)
+    .WaitFor(inventoryApi);
 
 builder.Build().Run();

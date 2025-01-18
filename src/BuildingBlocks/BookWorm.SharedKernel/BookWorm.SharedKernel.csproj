@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <PackageReference Include="MediatR" />
-    <PackageReference Include="Scrutor" />
     <PackageReference Include="Dapr.AspNetCore" />
     <PackageReference Include="FluentValidation.AspNetCore" />
     <PackageReference Include="OpenTelemetry.Extensions.Hosting" />

@@ -1,4 +1,4 @@
-﻿using BookWor.Constants;
+﻿using BookWorm.Constants;
 using BookWorm.SharedKernel.EventBus.Abstractions;
 using BookWorm.SharedKernel.EventBus.Events;
 using Dapr.Client;
@@ -11,7 +11,7 @@ public sealed class DaprEventBus(DaprClient daprClient) : IEventBus
 
     public async Task PublishAsync(
         IntegrationEvent integrationEvent,
-        CancellationToken cancellationToken
+        CancellationToken cancellationToken = default
     )
     {
         await daprClient.PublishEventAsync(

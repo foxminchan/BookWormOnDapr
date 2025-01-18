@@ -14,6 +14,7 @@
     <PackageReference Include="Aspire.Hosting.PostgreSQL" />
     <PackageReference Include="Aspire.Hosting.Azure.Storage" />
     <PackageReference Include="Aspire.Hosting.RabbitMQ" />
+    <PackageReference Include="Aspire.Hosting.Keycloak" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,6 +22,8 @@
     <ProjectReference Include="..\..\Services\Basket\BookWorm.Basket\BookWorm.Basket.csproj" />
     <ProjectReference Include="..\..\Services\Catalog\BookWorm.Catalog\BookWorm.Catalog.csproj" />
     <ProjectReference Include="..\..\Services\Customer\BookWorm.Customer\BookWorm.Customer.csproj" />
+    <ProjectReference Include="..\..\Services\Inventory\BookWorm.Inventory\BookWorm.Inventory.csproj" />
+    <ProjectReference Include="..\..\Services\Notification\BookWorm.Notification\BookWorm.Notification.csproj" />
     <ProjectReference Include="..\..\Services\Ordering\BookWorm.Ordering\BookWorm.Ordering.csproj" />
     <ProjectReference Include="..\..\Services\Rating\BookWorm.Rating\BookWorm.Rating.csproj" />
   </ItemGroup>

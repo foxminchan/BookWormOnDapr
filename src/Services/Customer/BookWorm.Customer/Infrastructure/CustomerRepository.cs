@@ -4,7 +4,7 @@ using BookWorm.SharedKernel.Repositories;
 
 namespace BookWorm.Customer.Infrastructure;
 
-public class CustomerRepository<T>(CustomerDbContext dbContext)
+public sealed class CustomerRepository<T>(CustomerDbContext dbContext)
     : RepositoryBase<T>(dbContext),
         IReadRepository<T>,
         IRepository<T>

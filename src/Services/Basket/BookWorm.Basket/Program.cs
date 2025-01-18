@@ -20,6 +20,10 @@ var apiVersionSet = app.NewApiVersionSet().HasApiVersion(new(1, 0)).ReportApiVer
 
 app.MapEndpoints(apiVersionSet);
 
+app.MapIntegrationEvents();
+
+app.MapSubscribeHandler();
+
 app.UseHttpsRedirection();
 
 app.Run();

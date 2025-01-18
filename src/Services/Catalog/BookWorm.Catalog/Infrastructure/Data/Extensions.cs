@@ -1,5 +1,4 @@
 ﻿using Bogus;
-using BookWor.Constants;
 using BookWorm.Catalog.Domain;
 using BookWorm.Catalog.Domain.BookAggregate;
 using BookWorm.Constants;
@@ -34,10 +33,7 @@ public static class Extensions
                     .UseAsyncSeeding(
                         async (context, _, cancellationToken) =>
                         {
-                            if (
-                                Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")
-                                == Environments.Production
-                            )
+                            if (builder.Environment.IsProduction())
                             {
                                 return;
                             }
