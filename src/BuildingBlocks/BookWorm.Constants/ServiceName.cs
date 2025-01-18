@@ -1,4 +1,4 @@
-﻿namespace BookWor.Constants;
+﻿namespace BookWorm.Constants;
 
 public sealed class ServiceName
 {
@@ -8,6 +8,7 @@ public sealed class ServiceName
         public const string Ordering = "orderingdb";
         public const string Rating = "ratingdb";
         public const string Customer = "customerdb";
+        public const string Inventory = "inventorydb";
     }
 
     public static class Component
@@ -18,4 +19,5 @@ public sealed class ServiceName
 
     public const string Blob = "blob";
     public const string Bus = "bus";
+    public const string Keycloak = "keycloak";
 }

@@ -3,9 +3,9 @@ using BookWorm.SharedKernel.Core.Model;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace BookWorm.Shared.EF;
+namespace BookWorm.SharedKernel.Mediator;
 
-public static class MediatorExtensions
+public static class Extensions
 {
     public static async Task DispatchDomainEventsAsync(this IPublisher publisher, DbContext ctx)
     {

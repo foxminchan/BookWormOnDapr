@@ -1,5 +1,5 @@
-﻿using BookWor.Constants;
-using BookWorm.Basket.Domain;
+﻿using BookWorm.Basket.Domain;
+using BookWorm.Constants;
 using Dapr.Client;
 
 namespace BookWorm.Basket.Repositories;
@@ -13,7 +13,7 @@ public sealed class DaprBasketRepository(DaprClient daprClient) : IBasketReposit
     {
         await daprClient.SaveStateAsync(
             StateStoreName,
-            $"{Prefix}-{card.CustomerId}",
+            $"{Prefix}:{card.CustomerId}",
             card,
             cancellationToken: cancellationToken
         );
@@ -21,7 +21,7 @@ public sealed class DaprBasketRepository(DaprClient daprClient) : IBasketReposit
         return card.CustomerId;
     }
 
-    public async Task DeleteAsync(Guid customerId, CancellationToken cancellationToken)
+    public async Task DeleteAsync(Guid? customerId, CancellationToken cancellationToken)
     {
         await daprClient.DeleteStateAsync(
             StateStoreName,
@@ -30,11 +30,11 @@ public sealed class DaprBasketRepository(DaprClient daprClient) : IBasketReposit
         );
     }
 
-    public async Task<Card> GetAsync(Guid customerId, CancellationToken cancellationToken)
+    public async Task<Card> GetAsync(Guid? customerId, CancellationToken cancellationToken)
     {
         var state = await daprClient.GetStateAsync<Card>(
             StateStoreName,
-            $"{Prefix}-{customerId}",
+            $"{Prefix}:{customerId}",
             cancellationToken: cancellationToken
         );
 
@@ -45,7 +45,7 @@ public sealed class DaprBasketRepository(DaprClient daprClient) : IBasketReposit
     {
         var state = await daprClient.GetStateEntryAsync<Card>(
             StateStoreName,
-            $"{Prefix}-{card.CustomerId}",
+            $"{Prefix}:{card.CustomerId}",
             cancellationToken: cancellationToken
         );
 

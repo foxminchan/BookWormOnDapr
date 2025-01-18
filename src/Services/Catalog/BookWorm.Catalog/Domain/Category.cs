@@ -17,6 +17,7 @@ public sealed class Category : Entity, IAggregateRoot
     public IReadOnlyCollection<BookCategory> BookCategories => _bookCategories.AsReadOnly();
 
     public Category(string name)
+        : this()
     {
         Name = Guard.Against.NullOrEmpty(name);
     }

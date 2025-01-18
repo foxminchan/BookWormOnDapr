@@ -42,4 +42,31 @@ public static class Extensions
 
         return app;
     }
+
+    public static IServiceCollection AddSubscribers(this IServiceCollection services, Type type)
+    {
+        ServiceDescriptor[] serviceDescriptors = type
+            .Assembly.DefinedTypes.Where(type =>
+                type is { IsAbstract: false, IsInterface: false }
+                && type.IsAssignableTo(typeof(ISubscriber))
+            )
+            .Select(type => ServiceDescriptor.Transient(typeof(ISubscriber), type))
+            .ToArray();
+        services.TryAddEnumerable(serviceDescriptors);
+        return services;
+    }
+
+    public static IApplicationBuilder MapIntegrationEvents(this WebApplication app)
+    {
+        var scope = app.Services.CreateScope();
+
+        var subscribers = scope.ServiceProvider.GetRequiredService<IEnumerable<ISubscriber>>();
+
+        foreach (var subscriber in subscribers)
+        {
+            subscriber.MapIntegrationEventEndpoint(app);
+        }
+
+        return app;
+    }
 }

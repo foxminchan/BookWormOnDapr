@@ -47,7 +47,7 @@ internal sealed class ListBooksHandler(IReadRepository<Book> repository, IBlobSe
         CancellationToken cancellationToken
     )
     {
-        var books = await repository.ListAsync(
+        var books = repository.ListAsync(
             new BookFilterSpec(
                 request.PageIndex,
                 request.PageSize,
@@ -62,13 +62,7 @@ internal sealed class ListBooksHandler(IReadRepository<Book> repository, IBlobSe
             cancellationToken
         );
 
-        var imageUrls = books
-            .Where(book => book.ImageUrl is not null)
-            .ToDictionary(book => book.Id, book => blobService.GetFileUrl(book.ImageUrl!));
-
-        var bookDtos = books.ToBookDtos(imageUrls);
-
-        var totalRecords = await repository.CountAsync(
+        var totalRecords = repository.CountAsync(
             new BookFilterSpec(
                 request.Search,
                 request.MinPrice,
@@ -79,9 +73,22 @@ internal sealed class ListBooksHandler(IReadRepository<Book> repository, IBlobSe
             cancellationToken
         );
 
-        var totalPages = (int)Math.Ceiling(totalRecords / (double)request.PageSize);
+        await Task.WhenAll(books, totalRecords);
 
-        PagedInfo pagedInfo = new(request.PageIndex, request.PageSize, totalRecords, totalPages);
+        var imageUrls = books
+            .Result.Where(book => book.ImageUrl is not null)
+            .ToDictionary(book => book.Id, book => blobService.GetFileUrl(book.ImageUrl!));
+
+        var bookDtos = books.Result.ToBookDtos(imageUrls);
+
+        var totalPages = (int)Math.Ceiling(totalRecords.Result / (double)request.PageSize);
+
+        PagedInfo pagedInfo = new(
+            request.PageIndex,
+            request.PageSize,
+            totalRecords.Result,
+            totalPages
+        );
 
         return new(pagedInfo, bookDtos);
     }

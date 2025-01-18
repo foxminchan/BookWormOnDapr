@@ -13,3 +13,9 @@ spec:
       value: ""
     - name: actorStateStore
       value: "true"
+    - name: outboxPublishPubsub
+      value: "pubsub"
+    - name: outboxInboxPubsub
+      value: "pubsub"
+    - name: outboxPublishTopic
+      value: "ordering"

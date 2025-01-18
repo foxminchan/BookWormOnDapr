@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\BookWorm.ServiceDefaults\BookWorm.ServiceDefaults.csproj" />
+  </ItemGroup>
+
+</Project>
