@@ -17,7 +17,7 @@ internal sealed record ListBooksQuery(
     [property: DefaultValue(Pagination.DefaultPageSize)]
         int PageSize = Pagination.DefaultPageSize,
     [property: Description("Property to order results by")]
-    [property: DefaultValue("Name")]
+    [property: DefaultValue(nameof(Book.Name))]
         string? OrderBy = nameof(Book.Name),
     [property: Description("Whether to order results in descending order")]
     [property: DefaultValue(false)]

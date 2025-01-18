@@ -1,26 +1,27 @@
 ﻿using System.ComponentModel;
 using Ardalis.Result;
+using BookWorm.Customer.Domain;
 using BookWorm.SharedKernel.Endpoints;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BookWorm.Basket.Features.Delete;
+namespace BookWorm.Customer.Features.Delete;
 
-internal sealed class DeleteBasketEndpoint
+internal sealed class DeleteConsumerEndpoint
     : IEndpoint<Results<NoContent, NotFound<ProblemDetails>>, Guid, ISender>
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app.MapDelete(
-                "/baskets/{id:guid}",
-                async ([Description("The basket id")] Guid id, ISender sender) =>
+                "/consumers/{id:guid}",
+                async ([Description("The consumer id")] Guid id, ISender sender) =>
                     await HandleAsync(id, sender)
             )
             .Produces(StatusCodes.Status204NoContent)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .WithOpenApi()
-            .WithTags(nameof(Basket))
+            .WithTags(nameof(Consumer))
             .MapToApiVersion(new(1, 0));
     }
 
@@ -30,11 +31,11 @@ internal sealed class DeleteBasketEndpoint
         CancellationToken cancellationToken = default
     )
     {
-        var result = await sender.Send(new DeleteBasketCommand(id), cancellationToken);
+        var result = await sender.Send(new DeleteConsumerCommand(id), cancellationToken);
 
         return result.Status == ResultStatus.NotFound
             ? TypedResults.NotFound<ProblemDetails>(
-                new() { Detail = $"Basket with id {id} not found." }
+                new() { Detail = $"Consumer with id {id} not found." }
             )
             : TypedResults.NoContent();
     }

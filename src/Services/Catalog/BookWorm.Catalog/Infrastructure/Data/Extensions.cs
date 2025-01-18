@@ -2,6 +2,7 @@
 using BookWor.Constants;
 using BookWorm.Catalog.Domain;
 using BookWorm.Catalog.Domain.BookAggregate;
+using BookWorm.Constants;
 using BookWorm.SharedKernel.EF;
 using BookWorm.SharedKernel.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -48,10 +49,10 @@ public static class Extensions
                             )
                             {
                                 var categoryFaker = new Faker<Category>()
-                                    .UseSeed(210)
+                                    .UseSeed(Seeder.DefaultSeed)
                                     .RuleFor(x => x.Name, f => f.Person.FullName);
 
-                                var categoriesToSeed = categoryFaker.Generate(20);
+                                var categoriesToSeed = categoryFaker.Generate(Seeder.DefaultAmount);
 
                                 context.Set<Category>().AddRange(categoriesToSeed);
                                 await context.SaveChangesAsync(cancellationToken);
@@ -64,9 +65,9 @@ public static class Extensions
                             )
                             {
                                 var authorFaker = new Faker<Author>()
-                                    .UseSeed(210)
+                                    .UseSeed(Seeder.DefaultSeed)
                                     .RuleFor(x => x.Name, f => f.Person.FullName);
-                                var authorsToSeed = authorFaker.Generate(20);
+                                var authorsToSeed = authorFaker.Generate(Seeder.DefaultAmount);
                                 context.Set<Author>().AddRange(authorsToSeed);
                                 await context.SaveChangesAsync(cancellationToken);
                             }
@@ -78,7 +79,7 @@ public static class Extensions
                             )
                             {
                                 var bookFaker = new Faker<Book>()
-                                    .UseSeed(210)
+                                    .UseSeed(Seeder.DefaultSeed)
                                     .RuleFor(x => x.Name, f => f.Person.FullName)
                                     .RuleFor(x => x.Description, f => f.Lorem.Paragraph())
                                     .RuleFor(x => x.Price, f => f.Random.Decimal(1, 100))
@@ -94,7 +95,7 @@ public static class Extensions
                                             f.PickRandom(context.Set<Category>().Local)
                                                 .Select(category => new BookCategory(category.Id))
                                     );
-                                var booksToSeed = bookFaker.Generate(100);
+                                var booksToSeed = bookFaker.Generate(Seeder.DefaultLargeAmount);
                                 context.Set<Book>().AddRange(booksToSeed);
                                 await context.SaveChangesAsync(cancellationToken);
                             }

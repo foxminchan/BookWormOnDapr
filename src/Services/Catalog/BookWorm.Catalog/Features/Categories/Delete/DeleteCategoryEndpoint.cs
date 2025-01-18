@@ -1,4 +1,5 @@
-﻿using Ardalis.Result;
+﻿using System.ComponentModel;
+using Ardalis.Result;
 using BookWorm.Catalog.Domain;
 using BookWorm.SharedKernel.Endpoints;
 using MediatR;
@@ -14,7 +15,8 @@ internal sealed class DeleteCategoryEndpoint
     {
         app.MapDelete(
                 "/categories/{id:guid}",
-                async (Guid id, ISender sender) => await HandleAsync(id, sender)
+                async ([Description("The category id")] Guid id, ISender sender) =>
+                    await HandleAsync(id, sender)
             )
             .Produces(StatusCodes.Status204NoContent)
             .ProducesProblem(StatusCodes.Status404NotFound)
