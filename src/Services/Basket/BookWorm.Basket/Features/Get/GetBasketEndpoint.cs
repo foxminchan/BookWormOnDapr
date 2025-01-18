@@ -1,4 +1,5 @@
-﻿using Ardalis.Result;
+﻿using System.ComponentModel;
+using Ardalis.Result;
 using BookWorm.Basket.Domain;
 using BookWorm.SharedKernel.Endpoints;
 using MediatR;
@@ -14,7 +15,8 @@ internal sealed class GetBasketEndpoint
     {
         app.MapGet(
                 "/baskets/{id:guid}",
-                async (Guid id, ISender sender) => await HandleAsync(id, sender)
+                async ([Description("The basket id")] Guid id, ISender sender) =>
+                    await HandleAsync(id, sender)
             )
             .Produces<Card>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)

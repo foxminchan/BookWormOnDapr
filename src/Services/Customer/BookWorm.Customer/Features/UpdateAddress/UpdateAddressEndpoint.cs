@@ -1,40 +1,41 @@
-﻿using System.ComponentModel;
-using Ardalis.Result;
+﻿using Ardalis.Result;
+using BookWorm.Customer.Domain;
 using BookWorm.SharedKernel.Endpoints;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BookWorm.Basket.Features.Delete;
+namespace BookWorm.Customer.Features.UpdateAddress;
 
-internal sealed class DeleteBasketEndpoint
-    : IEndpoint<Results<NoContent, NotFound<ProblemDetails>>, Guid, ISender>
+internal sealed class UpdateAddressEndpoint
+    : IEndpoint<Results<NoContent, NotFound<ProblemDetails>>, UpdateAddressCommand, ISender>
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapDelete(
-                "/baskets/{id:guid}",
-                async ([Description("The basket id")] Guid id, ISender sender) =>
-                    await HandleAsync(id, sender)
+        app.MapPatch(
+                "/consumers/address",
+                async (UpdateAddressCommand command, ISender sender) =>
+                    await HandleAsync(command, sender)
             )
             .Produces(StatusCodes.Status204NoContent)
             .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesValidationProblem()
             .WithOpenApi()
-            .WithTags(nameof(Basket))
+            .WithTags(nameof(Consumer))
             .MapToApiVersion(new(1, 0));
     }
 
     public async Task<Results<NoContent, NotFound<ProblemDetails>>> HandleAsync(
-        Guid id,
+        UpdateAddressCommand command,
         ISender sender,
         CancellationToken cancellationToken = default
     )
     {
-        var result = await sender.Send(new DeleteBasketCommand(id), cancellationToken);
+        var result = await sender.Send(command, cancellationToken);
 
         return result.Status == ResultStatus.NotFound
             ? TypedResults.NotFound<ProblemDetails>(
-                new() { Detail = $"Basket with id {id} not found." }
+                new() { Detail = $"Consumer with id {command.Id} not found." }
             )
             : TypedResults.NoContent();
     }
