@@ -8,12 +8,12 @@ public sealed class Author : Entity, IAggregateRoot
 {
     public Author()
     {
-        // EF Core
+        _bookAuthors = [];
     }
 
     public string? Name { get; private set; }
 
-    private readonly List<BookAuthor> _bookAuthors = [];
+    private readonly List<BookAuthor> _bookAuthors;
     public IReadOnlyCollection<BookAuthor> BookAuthors => _bookAuthors.AsReadOnly();
 
     public Author(string name)

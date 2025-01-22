@@ -60,6 +60,7 @@ public static class OpenApiExtension
         {
             app.MapScalarApiReference(options =>
             {
+                options.Title = openApiSection.Title;
                 options.DefaultFonts = false;
             });
             app.MapGet("/", () => Results.Redirect("/scalar/v1")).ExcludeFromDescription();

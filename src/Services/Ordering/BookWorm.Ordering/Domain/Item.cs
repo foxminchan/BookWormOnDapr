@@ -7,13 +7,13 @@ public sealed class Item : Entity
 {
     public Item()
     {
-        // EF Core
+        Order = default!;
     }
 
     public int Quantity { get; private set; }
     public decimal Price { get; private set; }
     public Guid OrderId { get; private set; }
-    public Order Order { get; private set; } = default!;
+    public Order Order { get; private set; }
 
     public Item(Guid id, int quantity, decimal price)
         : this()

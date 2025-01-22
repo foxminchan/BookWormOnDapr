@@ -1,10 +1,28 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using BookWorm.Inventory.Extensions;
+using BookWorm.ServiceDefaults;
+using BookWorm.SharedKernel.Endpoints;
 
-builder.AddServiceDefaults();
+var builder = WebApplication.CreateBuilder(args);
+
+builder.AddApplicationServices();
 
 var app = builder.Build();
 
+app.UseOpenApi();
+
+app.UseCloudEvents();
+
+app.UseExceptionHandler();
+
 app.MapDefaultEndpoints();
+
+var apiVersionSet = app.NewApiVersionSet().HasApiVersion(new(1, 0)).ReportApiVersions().Build();
+
+app.MapEndpoints(apiVersionSet);
+
+app.MapIntegrationEvents();
+
+app.MapSubscribeHandler();
 
 app.UseHttpsRedirection();
 

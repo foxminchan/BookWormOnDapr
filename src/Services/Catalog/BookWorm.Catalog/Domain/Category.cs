@@ -8,12 +8,12 @@ public sealed class Category : Entity, IAggregateRoot
 {
     public Category()
     {
-        // EF Core
+        _bookCategories = [];
     }
 
     public string? Name { get; private set; }
 
-    private readonly List<BookCategory> _bookCategories = [];
+    private readonly List<BookCategory> _bookCategories;
     public IReadOnlyCollection<BookCategory> BookCategories => _bookCategories.AsReadOnly();
 
     public Category(string name)

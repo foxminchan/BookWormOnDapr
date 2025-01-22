@@ -7,12 +7,13 @@ public sealed class BookCategory : Entity
 {
     public BookCategory()
     {
-        // EF Core
+        Category = default!;
+        Book = default!;
     }
 
     public Guid CategoryId { get; private set; }
-    public Category Category { get; private set; } = default!;
-    public Book Book { get; private set; } = default!;
+    public Category Category { get; private set; }
+    public Book Book { get; private set; }
 
     public BookCategory(Guid categoryId)
         : this()

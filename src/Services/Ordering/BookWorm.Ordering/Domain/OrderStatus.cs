@@ -3,7 +3,7 @@
 namespace BookWorm.Ordering.Domain;
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
-public enum OrderStatus
+public enum OrderStatus : byte
 {
     New = 1,
     Paid = 2,
