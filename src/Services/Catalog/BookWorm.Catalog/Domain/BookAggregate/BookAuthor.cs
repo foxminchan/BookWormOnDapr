@@ -7,12 +7,13 @@ public sealed class BookAuthor : Entity
 {
     public BookAuthor()
     {
-        // EF Core
+        Author = default!;
+        Book = default!;
     }
 
     public Guid AuthorId { get; private set; }
-    public Author Author { get; private set; } = default!;
-    public Book Book { get; private set; } = default!;
+    public Author Author { get; private set; }
+    public Book Book { get; private set; }
 
     public BookAuthor(Guid authorId)
         : this()

@@ -9,7 +9,7 @@ public sealed class Order : AuditableEntity, IAggregateRoot, ISoftDelete
 {
     public Order()
     {
-        // EF Core
+        _items = [];
     }
 
     public int No { get; private set; }
@@ -18,7 +18,7 @@ public sealed class Order : AuditableEntity, IAggregateRoot, ISoftDelete
     public OrderStatus Status { get; private set; }
     public bool IsDeleted { get; set; }
 
-    private readonly List<Item> _items = [];
+    private readonly List<Item> _items;
     public IReadOnlyCollection<Item> Items => _items.AsReadOnly();
 
     public Order(string? notes, Guid? consumerId, List<Item> items)

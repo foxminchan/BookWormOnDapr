@@ -1,16 +1,37 @@
-﻿using Dapr.Workflow;
+﻿using BookWorm.Constants;
+using Dapr.Client;
+using Dapr.Workflow;
 
 namespace BookWorm.Ordering.Activities;
 
 internal sealed record InventoryResult(bool IsAvailable, Dictionary<Guid, int> UnavailableItems);
 
-internal sealed class ReserveInventoryActivity : WorkflowActivity<List<Guid>, InventoryResult>
+internal sealed class ReserveInventoryActivity(DaprClient daprClient, ILoggerFactory loggerFactory)
+    : WorkflowActivity<List<Guid>, InventoryResult>
 {
-    public override Task<InventoryResult> RunAsync(
+    private readonly ILogger _logger = loggerFactory.CreateLogger<ReserveInventoryActivity>();
+
+    public override async Task<InventoryResult> RunAsync(
         WorkflowActivityContext context,
         List<Guid> input
     )
     {
-        throw new NotImplementedException();
+        _logger.LogInformation(
+            "[{Activity}] - Reserving inventory for {ProductCount} products",
+            nameof(ReserveInventoryActivity),
+            input.Count
+        );
+
+        var inventory = await daprClient.InvokeMethodAsync<Dictionary<Guid, int>>(
+            HttpMethod.Get,
+            ServiceName.App.Inventory,
+            $"/api/v1/stocks?productIds={string.Join(",", input)}"
+        );
+
+        var unavailableItems = inventory
+            .Where(x => x.Value <= 0)
+            .ToDictionary(x => x.Key, x => x.Value);
+
+        return new InventoryResult(unavailableItems.Count == 0, unavailableItems);
     }
 }
