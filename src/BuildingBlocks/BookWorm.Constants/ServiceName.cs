@@ -10,6 +10,7 @@ public sealed class ServiceName
         public const string Rating = "ratingdb";
         public const string Customer = "customerdb";
         public const string Inventory = "inventorydb";
+        public const string Payment = "paymentdb";
     }
 
     // Dapr Component Definitions
@@ -37,5 +38,6 @@ public sealed class ServiceName
         public const string Inventory = Prefix + "-inventory";
         public const string Notification = Prefix + "-notification";
         public const string Gateway = Prefix + "-apigateway";
+        public const string Payment = Prefix + "-payment";
     }
 }

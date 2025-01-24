@@ -30,6 +30,8 @@
     <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="$(ApiVersioningVersion)" />
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="$(AspnetVersion)" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="$(AspnetVersion)" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="$(AspnetVersion)" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly" Version="$(AspnetVersion)" />
     <!-- Ardalis -->
     <PackageVersion Include="Ardalis.GuardClauses" Version="5.0.0" />
     <PackageVersion Include="Ardalis.Result.AspNetCore" Version="10.1.0" />

@@ -24,6 +24,7 @@ var orderingDb = builder.AddPostgres(ServiceName.Database.Ordering);
 var ratingDb = builder.AddPostgres(ServiceName.Database.Rating);
 var customerDb = builder.AddPostgres(ServiceName.Database.Customer);
 var inventoryDb = builder.AddPostgres(ServiceName.Database.Inventory);
+var paymentDb = builder.AddPostgres(ServiceName.Database.Payment);
 
 var storage = builder.AddAzureStorage("storage");
 
@@ -126,11 +127,19 @@ var inventoryApi = builder
     .WaitFor(inventoryDb)
     .WaitFor(keycloak);
 
+var paymentApi = builder
+    .AddProject<BookWorm_Payment>(ServiceName.App.Payment)
+    .WithReference(paymentDb)
+    .WithReference(pubSub)
+    .WithReference(keycloak)
+    .WaitFor(paymentDb)
+    .WaitFor(keycloak);
+
 builder
     .AddProject<BookWorm_Notification>(ServiceName.App.Notification)
     .WithDaprSidecar(o => o.WithOptions(new DaprSidecarOptions { DaprHttpPort = 4100 }));
 
-builder
+var gateway = builder
     .AddProject<BookWorm_ApiGateway>(ServiceName.App.Gateway)
     .WithReference(catalogApi)
     .WithReference(basketApi)
@@ -138,11 +147,15 @@ builder
     .WithReference(ratingApi)
     .WithReference(customerApi)
     .WithReference(inventoryApi)
+    .WithReference(paymentApi)
     .WaitFor(catalogApi)
     .WaitFor(basketApi)
     .WaitFor(orderingApi)
     .WaitFor(ratingApi)
     .WaitFor(customerApi)
-    .WaitFor(inventoryApi);
+    .WaitFor(inventoryApi)
+    .WaitFor(paymentApi);
+
+builder.AddProject<BookWorm_BackOffice>("bookworm-backoffice").WithReference(gateway);
 
 builder.Build().Run();

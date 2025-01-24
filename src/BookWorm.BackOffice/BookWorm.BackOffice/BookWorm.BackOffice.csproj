@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\BuildingBlocks\BookWorm.ServiceDefaults\BookWorm.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\BookWorm.BackOffice.Client\BookWorm.BackOffice.Client.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" />
+  </ItemGroup>
+
+</Project>
