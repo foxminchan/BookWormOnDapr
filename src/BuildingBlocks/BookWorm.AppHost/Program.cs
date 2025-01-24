@@ -8,8 +8,6 @@ var builder = DistributedApplication.CreateBuilder(args);
 
 var postgresUser = builder.AddParameter("SqlUser", true);
 var postgresPassword = builder.AddParameter("SqlPassword", true);
-var rabbitUser = builder.AddParameter("RabbitUser");
-var rabbitPass = builder.AddParameter("RabbitPassword", true);
 
 const string baseDir = "../../..";
 
@@ -24,6 +22,7 @@ var orderingDb = builder.AddPostgres(ServiceName.Database.Ordering);
 var ratingDb = builder.AddPostgres(ServiceName.Database.Rating);
 var customerDb = builder.AddPostgres(ServiceName.Database.Customer);
 var inventoryDb = builder.AddPostgres(ServiceName.Database.Inventory);
+var paymentDb = builder.AddPostgres(ServiceName.Database.Payment);
 
 var storage = builder.AddAzureStorage("storage");
 
@@ -34,11 +33,11 @@ if (builder.Environment.IsDevelopment())
 
 var blobs = storage.AddBlobs(ServiceName.Blob);
 
-var rabbitMq = builder
-    .AddRabbitMQ(ServiceName.Bus, rabbitUser, rabbitPass)
-    .WithManagementPlugin()
-    .WithEndpoint("tcp", e => e.Port = 5672)
-    .WithEndpoint("management", e => e.Port = 15672);
+var kafka = builder
+    .AddKafka(ServiceName.Bus, 9092)
+    .WithKafkaUI()
+    .WithDataBindMount($"{baseDir}/mnt/kafka", false)
+    .WithLifetime(ContainerLifetime.Persistent);
 
 var stateStore = builder.AddDaprStateStore(
     ServiceName.Component.Store,
@@ -50,7 +49,7 @@ var pubSub = builder
         ServiceName.Component.Pubsub,
         new DaprComponentOptions { LocalPath = $"{baseDir}/dapr/components/pubsub.yaml" }
     )
-    .WaitFor(rabbitMq);
+    .WaitFor(kafka);
 
 var keycloak = builder
     .AddKeycloak(ServiceName.Keycloak, 5000)
@@ -126,11 +125,20 @@ var inventoryApi = builder
     .WaitFor(inventoryDb)
     .WaitFor(keycloak);
 
-builder
-    .AddProject<BookWorm_Notification>(ServiceName.App.Notification)
-    .WithDaprSidecar(o => o.WithOptions(new DaprSidecarOptions { DaprHttpPort = 4100 }));
+var paymentApi = builder
+    .AddProject<BookWorm_Payment>(ServiceName.App.Payment)
+    .WithDaprSidecar(o => o.WithOptions(new DaprSidecarOptions { DaprHttpPort = 4100 }))
+    .WithReference(paymentDb)
+    .WithReference(pubSub)
+    .WithReference(keycloak)
+    .WaitFor(paymentDb)
+    .WaitFor(keycloak);
 
 builder
+    .AddProject<BookWorm_Notification>(ServiceName.App.Notification)
+    .WithDaprSidecar(o => o.WithOptions(new DaprSidecarOptions { DaprHttpPort = 4200 }));
+
+var gateway = builder
     .AddProject<BookWorm_ApiGateway>(ServiceName.App.Gateway)
     .WithReference(catalogApi)
     .WithReference(basketApi)
@@ -138,11 +146,15 @@ builder
     .WithReference(ratingApi)
     .WithReference(customerApi)
     .WithReference(inventoryApi)
+    .WithReference(paymentApi)
     .WaitFor(catalogApi)
     .WaitFor(basketApi)
     .WaitFor(orderingApi)
     .WaitFor(ratingApi)
     .WaitFor(customerApi)
-    .WaitFor(inventoryApi);
+    .WaitFor(inventoryApi)
+    .WaitFor(paymentApi);
+
+builder.AddProject<BookWorm_BackOffice>("bookworm-backoffice").WithReference(gateway);
 
 builder.Build().Run();
