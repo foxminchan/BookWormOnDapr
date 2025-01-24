@@ -1,0 +1,13 @@
+{
+  "name": "BookwormOnDapr",
+  "image": "mcr.microsoft.com/devcontainers/dotnet:1-9.0-bookworm",
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {},
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/rio/features/k3d:1": {},
+    "ghcr.io/dapr/cli/dapr-cli:0": {},
+    "ghcr.io/nikiforovall/devcontainer-features/dotnet-aspire:1": {},
+    "ghcr.io/prom3theu5/aspirational-manifests/aspirate:latest": {}
+  },
+  "postCreateCommand": "dotnet restore && dapr uninstall --all && dapr init"
+}
