@@ -1,17 +1,7 @@
-﻿using Ardalis.GuardClauses;
-using BookWorm.SharedKernel.Core.Model;
-using BookWorm.SharedKernel.Models;
+﻿namespace BookWorm.Catalog.Domain.BookAggregate;
 
-namespace BookWorm.Catalog.Domain.BookAggregate;
-
-public sealed class Book : AuditableEntity, IAggregateRoot, ISoftDelete
+public sealed class Book() : AuditableEntity, IAggregateRoot, ISoftDelete
 {
-    public Book()
-    {
-        _bookAuthors = [];
-        _bookCategories = [];
-    }
-
     public string? Name { get; private set; }
     public string? Description { get; private set; }
     public string? ImageUrl { get; private set; }
@@ -20,10 +10,10 @@ public sealed class Book : AuditableEntity, IAggregateRoot, ISoftDelete
     public int TotalReviews { get; private set; }
     public bool IsDeleted { get; set; }
 
-    private readonly List<BookAuthor> _bookAuthors;
+    private readonly List<BookAuthor> _bookAuthors = [];
     public IReadOnlyCollection<BookAuthor> BookAuthors => _bookAuthors.AsReadOnly();
 
-    private readonly List<BookCategory> _bookCategories;
+    private readonly List<BookCategory> _bookCategories = [];
     public IReadOnlyCollection<BookCategory> BookCategories => _bookCategories.AsReadOnly();
 
     public Book(

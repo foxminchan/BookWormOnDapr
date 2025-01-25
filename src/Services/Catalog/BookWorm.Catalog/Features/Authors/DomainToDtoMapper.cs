@@ -6,7 +6,7 @@ public static class DomainToDtoMapper
 {
     public static AuthorDto ToAuthorDto(this Author author)
     {
-        return new AuthorDto(author.Id, author.Name);
+        return new(author.Id, author.Name);
     }
 
     public static IReadOnlyList<AuthorDto> ToAuthorDtos(this List<Author>? authors)

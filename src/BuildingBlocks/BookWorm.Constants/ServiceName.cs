@@ -11,6 +11,7 @@ public sealed class ServiceName
         public const string Customer = "customerdb";
         public const string Inventory = "inventorydb";
         public const string Payment = "paymentdb";
+        public const string Identity = "identitydb";
     }
 
     // Dapr Component Definitions
@@ -23,7 +24,6 @@ public sealed class ServiceName
     // Infrastructure Definitions
     public const string Blob = "blob";
     public const string Bus = "bus";
-    public const string Keycloak = "keycloak";
 
     private const string Prefix = "bookworm";
 
@@ -39,5 +39,6 @@ public sealed class ServiceName
         public const string Notification = Prefix + "-notification";
         public const string Gateway = Prefix + "-apigateway";
         public const string Payment = Prefix + "-payment";
+        public const string Identity = Prefix + "-identity";
     }
 }

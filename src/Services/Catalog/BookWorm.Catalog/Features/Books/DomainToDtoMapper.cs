@@ -6,7 +6,7 @@ public static class DomainToDtoMapper
 {
     public static BookDto ToBookDto(this Book book, string? imageUrl)
     {
-        return new BookDto(
+        return new(
             book.Id,
             book.Name,
             book.Description,

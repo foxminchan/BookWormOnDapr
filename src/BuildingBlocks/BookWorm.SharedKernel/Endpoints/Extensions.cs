@@ -10,12 +10,14 @@ public static class Extensions
 {
     public static IServiceCollection AddEndpoints(this IServiceCollection services, Type type)
     {
-        ServiceDescriptor[] serviceDescriptors = type
-            .Assembly.DefinedTypes.Where(type =>
-                type is { IsAbstract: false, IsInterface: false }
-                && type.IsAssignableTo(typeof(IEndpoint))
+        var serviceDescriptors = type
+            .Assembly.DefinedTypes.Where(typeInfo =>
+                typeInfo is { IsAbstract: false, IsInterface: false }
+                && typeInfo.IsAssignableTo(typeof(IEndpoint))
             )
-            .Select(type => ServiceDescriptor.Transient(typeof(IEndpoint), type))
+            .Select(implementationType =>
+                ServiceDescriptor.Transient(typeof(IEndpoint), implementationType)
+            )
             .ToArray();
 
         services.TryAddEnumerable(serviceDescriptors);
@@ -45,14 +47,18 @@ public static class Extensions
 
     public static IServiceCollection AddSubscribers(this IServiceCollection services, Type type)
     {
-        ServiceDescriptor[] serviceDescriptors = type
-            .Assembly.DefinedTypes.Where(type =>
-                type is { IsAbstract: false, IsInterface: false }
-                && type.IsAssignableTo(typeof(ISubscriber))
+        var serviceDescriptors = type
+            .Assembly.DefinedTypes.Where(typeInfo =>
+                typeInfo is { IsAbstract: false, IsInterface: false }
+                && typeInfo.IsAssignableTo(typeof(ISubscriber))
             )
-            .Select(type => ServiceDescriptor.Transient(typeof(ISubscriber), type))
+            .Select(implementationType =>
+                ServiceDescriptor.Transient(typeof(ISubscriber), implementationType)
+            )
             .ToArray();
+
         services.TryAddEnumerable(serviceDescriptors);
+
         return services;
     }
 

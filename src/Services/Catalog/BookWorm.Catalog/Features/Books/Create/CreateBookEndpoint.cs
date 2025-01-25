@@ -1,9 +1,4 @@
 ﻿using BookWorm.Catalog.Domain.BookAggregate;
-using BookWorm.SharedKernel.Endpoints;
-using BookWorm.SharedKernel.Models;
-using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
 
 namespace BookWorm.Catalog.Features.Books.Create;
 

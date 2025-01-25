@@ -1,10 +1,4 @@
-﻿using System.ComponentModel;
-using Ardalis.Result;
-using BookWorm.Inventory.Domain;
-using BookWorm.SharedKernel.Endpoints;
-using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using BookWorm.Inventory.Domain;
 
 namespace BookWorm.Inventory.Features.Stocks.Remove;
 
@@ -22,7 +16,7 @@ internal sealed class RemoveStockEndpoint
                     ISender sender
                 ) => await HandleAsync(new(warehouseId, productId, quantity), sender)
             )
-            .Produces<StockDto>(StatusCodes.Status200OK)
+            .Produces<StockDto>()
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesValidationProblem()
             .WithOpenApi()

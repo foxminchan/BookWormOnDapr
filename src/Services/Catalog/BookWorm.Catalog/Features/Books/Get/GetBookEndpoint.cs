@@ -1,10 +1,4 @@
-﻿using System.ComponentModel;
-using Ardalis.Result;
-using BookWorm.Catalog.Domain.BookAggregate;
-using BookWorm.SharedKernel.Endpoints;
-using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using BookWorm.Catalog.Domain.BookAggregate;
 
 namespace BookWorm.Catalog.Features.Books.Get;
 
@@ -18,7 +12,7 @@ internal sealed class GetBookEndpoint
                 async ([Description("The book id")] Guid id, ISender sender) =>
                     await HandleAsync(id, sender)
             )
-            .Produces<BookDto>(StatusCodes.Status200OK)
+            .Produces<BookDto>()
             .ProducesProblem(StatusCodes.Status404NotFound)
             .WithOpenApi()
             .WithTags(nameof(Book))

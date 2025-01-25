@@ -1,13 +1,10 @@
-﻿using Ardalis.Result;
-using BookWorm.Catalog.Domain;
-using BookWorm.SharedKernel.Command;
-using BookWorm.SharedKernel.Repositories;
+﻿using BookWorm.Catalog.Domain;
 
 namespace BookWorm.Catalog.Features.Authors.Delete;
 
 internal sealed record DeleteAuthorCommand(Guid Id) : ICommand;
 
-internal sealed class DeleteAuthorHandler(IRepository<Author> Repository)
+internal sealed class DeleteAuthorHandler(IRepository<Author> repository)
     : ICommandHandler<DeleteAuthorCommand>
 {
     public async Task<Result> Handle(
@@ -15,14 +12,14 @@ internal sealed class DeleteAuthorHandler(IRepository<Author> Repository)
         CancellationToken cancellationToken = default
     )
     {
-        var author = await Repository.GetByIdAsync(command.Id, cancellationToken);
+        var author = await repository.GetByIdAsync(command.Id, cancellationToken);
 
         if (author is null)
         {
             return Result.NotFound();
         }
 
-        await Repository.DeleteAsync(author, cancellationToken);
+        await repository.DeleteAsync(author, cancellationToken);
 
         return Result.NoContent();
     }

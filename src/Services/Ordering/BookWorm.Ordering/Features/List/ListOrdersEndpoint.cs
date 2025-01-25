@@ -1,9 +1,4 @@
-﻿using Ardalis.Result;
-using BookWorm.SharedKernel.Endpoints;
-using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
-
-namespace BookWorm.Ordering.Features.List;
+﻿namespace BookWorm.Ordering.Features.List;
 
 internal sealed class ListOrdersEndpoint
     : IEndpoint<Ok<PagedResult<IReadOnlyList<OrderDto>>>, ListOrdersQuery, ISender>

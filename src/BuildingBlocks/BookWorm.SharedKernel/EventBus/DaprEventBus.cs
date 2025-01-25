@@ -14,10 +14,10 @@ public sealed class DaprEventBus(DaprClient daprClient) : IEventBus
         CancellationToken cancellationToken = default
     )
     {
-        await daprClient.PublishEventAsync(
+        await daprClient.PublishEventAsync<object>(
             PubSubName,
             integrationEvent.GetType().Name,
-            (object)integrationEvent,
+            integrationEvent,
             cancellationToken: cancellationToken
         );
     }

@@ -1,8 +1,4 @@
 ﻿using System.Runtime.CompilerServices;
-using BookWorm.SharedKernel.ActivityScope;
-using BookWorm.SharedKernel.Core.Event;
-using BookWorm.SharedKernel.EventBus.Events;
-using Marten;
 
 namespace BookWorm.Ordering.Infrastructure.EventStore.DocumentSession;
 

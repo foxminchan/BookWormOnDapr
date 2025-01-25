@@ -1,0 +1,13 @@
+global using BookWorm.ServiceDefaults;
+global using BookWorm.SharedKernel.EF;
+global using Duende.IdentityModel;
+global using Duende.IdentityServer;
+global using Duende.IdentityServer.Events;
+global using Duende.IdentityServer.Extensions;
+global using Duende.IdentityServer.Models;
+global using Duende.IdentityServer.Services;
+global using Microsoft.AspNetCore.Authentication;
+global using Microsoft.AspNetCore.Authorization;
+global using Microsoft.AspNetCore.Identity;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.AspNetCore.Mvc.RazorPages;

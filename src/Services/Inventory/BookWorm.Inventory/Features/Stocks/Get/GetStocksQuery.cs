@@ -1,14 +1,11 @@
-﻿using Ardalis.Result;
-using BookWorm.Inventory.Domain;
+﻿using BookWorm.Inventory.Domain;
 using BookWorm.Inventory.Domain.Specifications;
-using BookWorm.SharedKernel.Query;
-using BookWorm.SharedKernel.Repositories;
 
 namespace BookWorm.Inventory.Features.Stocks.Get;
 
 internal sealed record GetStocksQuery(Guid[] ProductIds) : IQuery<Result<Dictionary<Guid, int>>>;
 
-internal sealed class GetStocksHanlder(IReadRepository<Warehouse> repository)
+internal sealed class GetStocksHandler(IReadRepository<Warehouse> repository)
     : IQueryHandler<GetStocksQuery, Result<Dictionary<Guid, int>>>
 {
     public async Task<Result<Dictionary<Guid, int>>> Handle(

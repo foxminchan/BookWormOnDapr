@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace BookWorm.Ordering.Features.List;
+﻿namespace BookWorm.Ordering.Features.List;
 
 internal sealed class ListOrdersValidator : AbstractValidator<ListOrdersQuery>
 {

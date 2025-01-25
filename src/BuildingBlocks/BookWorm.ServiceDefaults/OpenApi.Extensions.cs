@@ -12,13 +12,21 @@ public static class OpenApiExtension
     public static IHostApplicationBuilder AddOpenApi(this IHostApplicationBuilder builder)
     {
         var openApi = builder.Configuration.GetSection(nameof(Document)).Get<Document>();
+        var identitySection = builder.Configuration.GetSection(nameof(Identity));
+
+        var scopes = identitySection.Exists()
+            ? identitySection
+                .GetRequiredSection("Scopes")
+                .GetChildren()
+                .ToDictionary(p => p.Key, p => p.Value)
+            : [];
 
         if (openApi is null)
         {
             return builder;
         }
 
-        string[] versions = ["v1"];
+        string[] versions = ["v1", "v2"];
         foreach (var description in versions)
         {
             builder.Services.AddOpenApi(
@@ -26,10 +34,12 @@ public static class OpenApiExtension
                 options =>
                 {
                     options.ApplyApiVersionInfo(openApi.Title, openApi.Description);
+                    options.ApplyAuthorizationChecks([.. scopes.Keys]);
+                    options.ApplySecuritySchemeDefinitions();
                     options.ApplyOperationDeprecatedStatus();
                     options.ApplySchemaNullableFalse();
                     options.AddDocumentTransformer(
-                        (document, context, cancellationToken) =>
+                        (document, _, _) =>
                         {
                             document.Servers = [];
                             return Task.CompletedTask;
@@ -56,15 +66,30 @@ public static class OpenApiExtension
 
         app.MapOpenApi();
 
-        if (app.Environment.IsDevelopment())
+        if (app.Environment.IsProduction())
         {
-            app.MapScalarApiReference(options =>
-            {
-                options.Title = openApiSection.Title;
-                options.DefaultFonts = false;
-            });
-            app.MapGet("/", () => Results.Redirect("/scalar/v1")).ExcludeFromDescription();
+            return app;
         }
+
+        app.MapScalarApiReference(options =>
+        {
+            options.Title = openApiSection.Title;
+            options.DefaultFonts = false;
+
+            var identitySection = configuration.GetSection(nameof(Identity)).Get<Identity>();
+
+            if (identitySection is null)
+            {
+                return;
+            }
+
+            options.WithOAuth2Authentication(oauth2Options =>
+            {
+                oauth2Options.ClientId = identitySection.ClientId;
+            });
+        });
+
+        app.MapGet("/", () => Results.Redirect("/scalar/v1")).ExcludeFromDescription();
 
         return app;
     }

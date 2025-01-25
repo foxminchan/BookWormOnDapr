@@ -1,10 +1,4 @@
-﻿using System.ComponentModel;
-using Ardalis.Result;
-using BookWorm.Basket.Domain;
-using BookWorm.SharedKernel.Endpoints;
-using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using BookWorm.Basket.Domain;
 
 namespace BookWorm.Basket.Features.Get;
 
@@ -18,7 +12,7 @@ internal sealed class GetBasketEndpoint
                 async ([Description("The basket id")] Guid id, ISender sender) =>
                     await HandleAsync(id, sender)
             )
-            .Produces<Card>(StatusCodes.Status200OK)
+            .Produces<Card>()
             .ProducesProblem(StatusCodes.Status404NotFound)
             .WithOpenApi()
             .WithTags(nameof(Basket))

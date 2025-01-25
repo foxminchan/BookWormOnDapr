@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace BookWorm.Inventory.Features.Stocks.Remove;
+﻿namespace BookWorm.Inventory.Features.Stocks.Remove;
 
 internal sealed class RemoveStockValidator : AbstractValidator<RemoveStockCommand>
 {

@@ -1,6 +1,4 @@
-﻿using BookWorm.Constants;
-using Dapr.Client;
-using Dapr.Workflow;
+﻿using Dapr.Client;
 
 namespace BookWorm.Ordering.Activities;
 
@@ -32,6 +30,6 @@ internal sealed class ReserveInventoryActivity(DaprClient daprClient, ILoggerFac
             .Where(x => x.Value <= 0)
             .ToDictionary(x => x.Key, x => x.Value);
 
-        return new InventoryResult(unavailableItems.Count == 0, unavailableItems);
+        return new(unavailableItems.Count == 0, unavailableItems);
     }
 }

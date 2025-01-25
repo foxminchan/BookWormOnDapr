@@ -6,7 +6,7 @@ public static class DomainToDtoMapper
 {
     public static CategoryDto ToCategoryDto(this Category category)
     {
-        return new CategoryDto(category.Id, category.Name);
+        return new(category.Id, category.Name);
     }
 
     public static IReadOnlyList<CategoryDto> ToCategoryDtos(this List<Category>? categories)

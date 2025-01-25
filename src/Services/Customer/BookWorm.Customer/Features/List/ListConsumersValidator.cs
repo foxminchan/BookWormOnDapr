@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace BookWorm.Customer.Features.List;
+﻿namespace BookWorm.Customer.Features.List;
 
 internal sealed class ListConsumersValidator : AbstractValidator<ListConsumersQuery>
 {

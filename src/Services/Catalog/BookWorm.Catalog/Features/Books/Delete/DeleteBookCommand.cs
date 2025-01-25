@@ -1,8 +1,5 @@
-﻿using Ardalis.Result;
-using BookWorm.Catalog.Domain.BookAggregate;
+﻿using BookWorm.Catalog.Domain.BookAggregate;
 using BookWorm.Catalog.Domain.BookAggregate.Specifications;
-using BookWorm.SharedKernel.Command;
-using BookWorm.SharedKernel.Repositories;
 
 namespace BookWorm.Catalog.Features.Books.Delete;
 

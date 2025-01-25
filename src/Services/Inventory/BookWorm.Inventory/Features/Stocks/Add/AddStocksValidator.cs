@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace BookWorm.Inventory.Features.Stocks.Add;
+﻿namespace BookWorm.Inventory.Features.Stocks.Add;
 
 internal sealed class AddStocksValidator : AbstractValidator<AddStocksCommand>
 {
@@ -12,10 +10,10 @@ internal sealed class AddStocksValidator : AbstractValidator<AddStocksCommand>
             .NotEmpty()
             .ForEach(stock =>
             {
-                stock.ChildRules(stock =>
+                stock.ChildRules(rules =>
                 {
-                    stock.RuleFor(x => x.ProductId).NotEmpty();
-                    stock.RuleFor(x => x.Quantity).GreaterThan(0);
+                    rules.RuleFor(x => x.ProductId).NotEmpty();
+                    rules.RuleFor(x => x.Quantity).GreaterThan(0);
                 });
             });
     }

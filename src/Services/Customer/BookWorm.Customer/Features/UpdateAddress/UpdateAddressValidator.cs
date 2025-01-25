@@ -1,7 +1,4 @@
-﻿using BookWorm.Constants;
-using FluentValidation;
-
-namespace BookWorm.Customer.Features.UpdateAddress;
+﻿namespace BookWorm.Customer.Features.UpdateAddress;
 
 internal sealed class UpdateAddressValidator : AbstractValidator<UpdateAddressCommand>
 {

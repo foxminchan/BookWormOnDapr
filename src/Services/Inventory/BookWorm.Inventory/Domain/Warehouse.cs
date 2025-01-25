@@ -1,23 +1,14 @@
-﻿using Ardalis.GuardClauses;
-using BookWorm.SharedKernel.Core.Model;
-using BookWorm.SharedKernel.Models;
+﻿namespace BookWorm.Inventory.Domain;
 
-namespace BookWorm.Inventory.Domain;
-
-public sealed class Warehouse : AuditableEntity<long>, IAggregateRoot, ISoftDelete
+public sealed class Warehouse() : AuditableEntity<long>, IAggregateRoot, ISoftDelete
 {
-    public Warehouse()
-    {
-        _stocks = [];
-    }
-
     public string? Location { get; private set; }
     public WarehouseStatus Status { get; private set; }
     public string? Description { get; private set; }
     public string? Website { get; private set; }
     public bool IsDeleted { get; set; }
 
-    private readonly List<Stock> _stocks;
+    private readonly List<Stock> _stocks = [];
     public IReadOnlyCollection<Stock> Stocks => _stocks.AsReadOnly();
 
     public Warehouse(
@@ -77,13 +68,15 @@ public sealed class Warehouse : AuditableEntity<long>, IAggregateRoot, ISoftDele
 
         var existingStock = _stocks.FirstOrDefault(s => s.ProductId == productId);
 
-        if (existingStock is not null)
+        if (existingStock is null)
         {
-            existingStock.DecreaseQuantity(quantity);
-            if (existingStock.Quantity <= 0)
-            {
-                _stocks.Remove(existingStock);
-            }
+            return;
+        }
+
+        existingStock.DecreaseQuantity(quantity);
+        if (existingStock.Quantity <= 0)
+        {
+            _stocks.Remove(existingStock);
         }
     }
 

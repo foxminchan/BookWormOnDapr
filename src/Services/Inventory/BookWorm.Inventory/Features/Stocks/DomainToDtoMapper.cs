@@ -6,7 +6,7 @@ public static class DomainToDtoMapper
 {
     public static StockDto ToStockDto(this Stock stock)
     {
-        return new StockDto(stock.ProductId, stock.Quantity);
+        return new(stock.ProductId, stock.Quantity);
     }
 
     public static IReadOnlyList<StockDto> ToStockDtos(this IReadOnlyCollection<Stock> stocks)

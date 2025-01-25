@@ -1,7 +1,4 @@
 ﻿using BookWorm.Catalog.Domain;
-using BookWorm.SharedKernel.Endpoints;
-using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace BookWorm.Catalog.Features.Authors.List;
 

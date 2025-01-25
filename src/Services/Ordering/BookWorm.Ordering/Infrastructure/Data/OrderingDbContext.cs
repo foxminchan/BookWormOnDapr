@@ -1,9 +1,5 @@
-﻿using Ardalis.GuardClauses;
-using BookWorm.Ordering.Domain;
-using BookWorm.SharedKernel.EF;
+﻿using BookWorm.Ordering.Domain;
 using BookWorm.SharedKernel.Mediator;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace BookWorm.Ordering.Infrastructure.Data;
 

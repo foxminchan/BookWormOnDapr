@@ -1,19 +1,12 @@
-﻿using Ardalis.GuardClauses;
-using BookWorm.Catalog.Domain.BookAggregate;
-using BookWorm.SharedKernel.Core.Model;
+﻿using BookWorm.Catalog.Domain.BookAggregate;
 
 namespace BookWorm.Catalog.Domain;
 
-public sealed class Author : Entity, IAggregateRoot
+public sealed class Author() : Entity, IAggregateRoot
 {
-    public Author()
-    {
-        _bookAuthors = [];
-    }
-
     public string? Name { get; private set; }
 
-    private readonly List<BookAuthor> _bookAuthors;
+    private readonly List<BookAuthor> _bookAuthors = [];
     public IReadOnlyCollection<BookAuthor> BookAuthors => _bookAuthors.AsReadOnly();
 
     public Author(string name)

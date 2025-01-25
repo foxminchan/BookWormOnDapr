@@ -1,12 +1,4 @@
-﻿using System.ComponentModel;
-using Ardalis.Result;
-using BookWorm.SharedKernel.Endpoints;
-using BookWorm.SharedKernel.Models;
-using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-
-namespace BookWorm.Basket.Features.CheckOut;
+﻿namespace BookWorm.Basket.Features.CheckOut;
 
 internal sealed class CheckOutBasketEndpoint
     : IEndpoint<Results<Accepted, NotFound<ProblemDetails>>, Guid, ISender>

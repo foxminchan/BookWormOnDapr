@@ -1,15 +1,4 @@
-﻿using System.Text.Json;
-using BookWorm.Customer.Infrastructure;
-using BookWorm.ServiceDefaults;
-using BookWorm.SharedKernel.ActivityScope;
-using BookWorm.SharedKernel.Command;
-using BookWorm.SharedKernel.Converters;
-using BookWorm.SharedKernel.Endpoints;
-using BookWorm.SharedKernel.Exceptions;
-using BookWorm.SharedKernel.Pipelines;
-using BookWorm.SharedKernel.Query;
-using BookWorm.SharedKernel.Versioning;
-using FluentValidation;
+﻿using BookWorm.Customer.Infrastructure;
 
 namespace BookWorm.Customer.Extensions;
 
@@ -18,6 +7,8 @@ internal static class Extensions
     public static void AddApplicationServices(this IHostApplicationBuilder builder)
     {
         builder.AddServiceDefaults();
+
+        builder.AddDefaultAuthentication();
 
         builder.AddVersioning();
 

@@ -1,6 +1,4 @@
 ﻿using BookWorm.Rating.Extensions;
-using BookWorm.ServiceDefaults;
-using BookWorm.SharedKernel.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 

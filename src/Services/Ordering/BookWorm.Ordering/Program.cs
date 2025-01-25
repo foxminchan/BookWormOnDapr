@@ -1,6 +1,4 @@
 ﻿using BookWorm.Ordering.Extensions;
-using BookWorm.ServiceDefaults;
-using BookWorm.SharedKernel.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 

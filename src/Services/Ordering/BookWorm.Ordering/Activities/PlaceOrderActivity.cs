@@ -1,7 +1,5 @@
 ﻿using BookWorm.Ordering.Domain;
 using BookWorm.Ordering.Features.Create;
-using Dapr.Workflow;
-using MediatR;
 
 namespace BookWorm.Ordering.Activities;
 

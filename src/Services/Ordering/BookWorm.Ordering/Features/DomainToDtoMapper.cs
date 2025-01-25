@@ -6,7 +6,7 @@ public static class DomainToDtoMapper
 {
     public static OrderDetailDto ToOrderDetailDto(this Order order)
     {
-        return new OrderDetailDto(
+        return new(
             order.Id,
             order.No,
             order.ConsumerId,
@@ -23,7 +23,7 @@ public static class DomainToDtoMapper
 
     public static OrderDto ToOrderDto(this Order order)
     {
-        return new OrderDto(
+        return new(
             order.Id,
             order.No,
             order.Status,

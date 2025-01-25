@@ -1,7 +1,4 @@
-﻿using Ardalis.GuardClauses;
-using BookWorm.SharedKernel.Core.Event;
-
-namespace BookWorm.Ordering.Domain.Events;
+﻿namespace BookWorm.Ordering.Domain.Events;
 
 public sealed class OrderCancelledEvent(Guid id, decimal totalPrice) : DomainEvent
 {

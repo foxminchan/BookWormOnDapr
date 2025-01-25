@@ -1,7 +1,5 @@
 ﻿using BookWorm.Ordering.Contracts;
 using BookWorm.Ordering.IntegrationEvents.Events;
-using BookWorm.SharedKernel.EventBus.Abstractions;
-using Dapr.Workflow;
 
 namespace BookWorm.Ordering.Activities;
 
@@ -25,6 +23,6 @@ internal sealed class RequestApprovalActivity(IEventBus eventBus, ILoggerFactory
             new RequestedApprovalIntegrationEvent(input.OrderId, input.Total)
         );
 
-        return Task.FromResult<object>(default!);
+        return Task.FromResult<object?>(null);
     }
 }

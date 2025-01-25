@@ -1,10 +1,5 @@
-﻿using System.ComponentModel;
-using Ardalis.Result;
-using BookWorm.Constants;
-using BookWorm.Ordering.Domain;
+﻿using BookWorm.Ordering.Domain;
 using BookWorm.Ordering.Domain.Specifications;
-using BookWorm.SharedKernel.Query;
-using BookWorm.SharedKernel.Repositories;
 
 namespace BookWorm.Ordering.Features.List;
 

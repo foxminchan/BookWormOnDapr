@@ -1,8 +1,4 @@
 ﻿using BookWorm.Inventory.Domain;
-using BookWorm.SharedKernel.Endpoints;
-using BookWorm.SharedKernel.Models;
-using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace BookWorm.Inventory.Features.Warehouses.Create;
 

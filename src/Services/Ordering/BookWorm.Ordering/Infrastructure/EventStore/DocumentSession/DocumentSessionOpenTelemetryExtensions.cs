@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using BookWorm.SharedKernel.OpenTelemetry;
-using Marten;
 
 namespace BookWorm.Ordering.Infrastructure.EventStore.DocumentSession;
 

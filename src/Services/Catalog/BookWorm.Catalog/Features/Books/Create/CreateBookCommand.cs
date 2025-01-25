@@ -1,8 +1,5 @@
-﻿using Ardalis.Result;
-using BookWorm.Catalog.Domain.BookAggregate;
+﻿using BookWorm.Catalog.Domain.BookAggregate;
 using BookWorm.Catalog.Infrastructure.Blob;
-using BookWorm.SharedKernel.Command;
-using BookWorm.SharedKernel.Repositories;
 
 namespace BookWorm.Catalog.Features.Books.Create;
 
@@ -15,6 +12,7 @@ internal sealed record CreateBookCommand(
     Guid[] CategoryIds
 ) : ICommand<Result<Guid>>;
 
+[TxScope]
 internal sealed class CreateBookHandler(IRepository<Book> repository, IBlobService blobService)
     : ICommandHandler<CreateBookCommand, Result<Guid>>
 {

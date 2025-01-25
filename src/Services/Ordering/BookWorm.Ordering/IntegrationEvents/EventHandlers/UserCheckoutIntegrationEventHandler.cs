@@ -1,7 +1,5 @@
 ﻿using BookWorm.Ordering.IntegrationEvents.Events;
 using BookWorm.Ordering.Workflows;
-using BookWorm.SharedKernel.EventBus.Abstractions;
-using Dapr.Workflow;
 
 namespace BookWorm.Ordering.IntegrationEvents.EventHandlers;
 

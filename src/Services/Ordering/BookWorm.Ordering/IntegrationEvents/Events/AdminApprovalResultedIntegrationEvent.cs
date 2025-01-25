@@ -1,5 +1,4 @@
 ﻿using BookWorm.Ordering.Contracts;
-using BookWorm.SharedKernel.EventBus.Events;
 
 namespace BookWorm.Ordering.IntegrationEvents.Events;
 

@@ -1,9 +1,6 @@
-﻿using Ardalis.Result;
-using BookWorm.Catalog.Domain.BookAggregate;
+﻿using BookWorm.Catalog.Domain.BookAggregate;
 using BookWorm.Catalog.Domain.BookAggregate.Specifications;
 using BookWorm.Catalog.Infrastructure.Blob;
-using BookWorm.SharedKernel.Command;
-using BookWorm.SharedKernel.Repositories;
 
 namespace BookWorm.Catalog.Features.Books.Update;
 
@@ -30,7 +27,7 @@ internal sealed class UpdateBookHandler(IRepository<Book> repository, IBlobServi
             return Result.NotFound();
         }
 
-        string? imageUrl = book.ImageUrl;
+        var imageUrl = book.ImageUrl;
 
         if (request.Image is not null)
         {

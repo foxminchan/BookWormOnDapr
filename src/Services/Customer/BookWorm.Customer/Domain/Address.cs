@@ -1,12 +1,7 @@
-﻿using Ardalis.GuardClauses;
-using BookWorm.SharedKernel.Core.Model;
+﻿namespace BookWorm.Customer.Domain;
 
-namespace BookWorm.Customer.Domain;
-
-public sealed class Address : ValueObject
+public sealed class Address() : ValueObject
 {
-    public Address() { }
-
     public string? Street { get; private set; }
     public string? City { get; private set; }
     public string? State { get; private set; }

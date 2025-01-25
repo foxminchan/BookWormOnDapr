@@ -1,6 +1,4 @@
 ﻿using BookWorm.Inventory.Domain;
-using BookWorm.SharedKernel.Repositories;
-using FluentValidation;
 
 namespace BookWorm.Inventory.Features.Warehouses.Delete;
 

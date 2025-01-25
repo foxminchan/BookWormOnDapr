@@ -1,23 +1,12 @@
-﻿using System.Text.Json;
-using BookWorm.ServiceDefaults;
-using BookWorm.SharedKernel.ActivityScope;
-using BookWorm.SharedKernel.Command;
-using BookWorm.SharedKernel.Converters;
-using BookWorm.SharedKernel.Endpoints;
-using BookWorm.SharedKernel.Exceptions;
-using BookWorm.SharedKernel.Pipelines;
-using BookWorm.SharedKernel.Query;
-using BookWorm.SharedKernel.Versioning;
-using FluentValidation;
-using Microsoft.AspNetCore.Http.Json;
-
-namespace BookWorm.Rating.Extensions;
+﻿namespace BookWorm.Rating.Extensions;
 
 internal static class Extensions
 {
     public static void AddApplicationServices(this IHostApplicationBuilder builder)
     {
         builder.AddServiceDefaults();
+
+        builder.AddDefaultAuthentication();
 
         builder.AddVersioning();
 

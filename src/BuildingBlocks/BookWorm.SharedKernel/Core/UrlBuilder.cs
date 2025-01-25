@@ -1,4 +1,4 @@
-﻿namespace BookWorm.SharedKernel.Models;
+﻿namespace BookWorm.SharedKernel.Core;
 
 public sealed class UrlBuilder
 {

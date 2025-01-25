@@ -1,19 +1,11 @@
-﻿using Ardalis.GuardClauses;
-using BookWorm.SharedKernel.Core.Model;
+﻿namespace BookWorm.Ordering.Domain;
 
-namespace BookWorm.Ordering.Domain;
-
-public sealed class Item : Entity
+public sealed class Item() : Entity
 {
-    public Item()
-    {
-        Order = default!;
-    }
-
     public int Quantity { get; private set; }
     public decimal Price { get; private set; }
     public Guid OrderId { get; private set; }
-    public Order Order { get; private set; }
+    public Order Order { get; private set; } = null!;
 
     public Item(Guid id, int quantity, decimal price)
         : this()

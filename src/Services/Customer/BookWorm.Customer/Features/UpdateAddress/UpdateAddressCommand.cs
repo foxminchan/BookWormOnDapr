@@ -1,8 +1,5 @@
-﻿using Ardalis.Result;
-using BookWorm.Customer.Domain;
+﻿using BookWorm.Customer.Domain;
 using BookWorm.Customer.Domain.Specifications;
-using BookWorm.SharedKernel.Command;
-using BookWorm.SharedKernel.Repositories;
 
 namespace BookWorm.Customer.Features.UpdateAddress;
 
@@ -34,13 +31,7 @@ internal sealed class UpdateAddressHandler(IRepository<Consumer> repository)
         }
 
         consumer.UpdateAddress(
-            new Address(
-                request.Street,
-                request.City,
-                request.State,
-                request.Country,
-                request.ZipCode
-            )
+            new(request.Street, request.City, request.State, request.Country, request.ZipCode)
         );
 
         await repository.SaveChangesAsync(cancellationToken);

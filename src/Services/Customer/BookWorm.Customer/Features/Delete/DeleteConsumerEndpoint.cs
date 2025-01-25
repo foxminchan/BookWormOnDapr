@@ -1,10 +1,4 @@
-﻿using System.ComponentModel;
-using Ardalis.Result;
-using BookWorm.Customer.Domain;
-using BookWorm.SharedKernel.Endpoints;
-using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using BookWorm.Customer.Domain;
 
 namespace BookWorm.Customer.Features.Delete;
 

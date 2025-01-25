@@ -1,8 +1,6 @@
 ﻿using BookWorm.Ordering.Domain.Events;
 using BookWorm.Ordering.Extensions;
 using BookWorm.Ordering.Infrastructure.EventStore.DocumentSession;
-using Marten;
-using MediatR;
 
 namespace BookWorm.Ordering.Domain.EventHandler;
 

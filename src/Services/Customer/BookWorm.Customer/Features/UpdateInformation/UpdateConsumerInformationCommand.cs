@@ -1,10 +1,7 @@
-﻿using Ardalis.Result;
-using BookWorm.Customer.Domain;
+﻿using BookWorm.Customer.Domain;
 using BookWorm.Customer.Domain.Specifications;
-using BookWorm.SharedKernel.Command;
-using BookWorm.SharedKernel.Repositories;
 
-namespace BookWorm.Customer.Features.Update;
+namespace BookWorm.Customer.Features.UpdateInformation;
 
 internal sealed record UpdateConsumerInformationCommand(
     Guid Id,

@@ -1,9 +1,5 @@
 ﻿using Bogus;
-using BookWorm.Constants;
 using BookWorm.Inventory.Domain;
-using BookWorm.SharedKernel.EF;
-using BookWorm.SharedKernel.Repositories;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace BookWorm.Inventory.Infrastructure;

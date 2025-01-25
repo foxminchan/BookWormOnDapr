@@ -1,16 +1,9 @@
-﻿using Ardalis.GuardClauses;
-using BookWorm.SharedKernel.Core.Model;
-using BookWorm.SharedKernel.Models;
+﻿using BookWorm.SharedKernel.Core;
 
 namespace BookWorm.Customer.Domain;
 
-public sealed class Consumer : AuditableEntity, IAggregateRoot, ISoftDelete
+public sealed class Consumer() : AuditableEntity, IAggregateRoot, ISoftDelete
 {
-    public Consumer()
-    {
-        // EF Core
-    }
-
     public string? FirstName { get; private set; }
     public string? LastName { get; private set; }
     public string? Email { get; private set; }

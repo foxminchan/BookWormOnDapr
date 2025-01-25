@@ -1,6 +1,4 @@
 ﻿using BookWorm.Ordering.IntegrationEvents.Events;
-using BookWorm.SharedKernel.EventBus.Abstractions;
-using Dapr.Workflow;
 
 namespace BookWorm.Ordering.Activities;
 
@@ -27,13 +25,13 @@ internal sealed class NotifyActivity(IEventBus eventBus, ILoggerFactory loggerFa
                 nameof(NotifyActivity)
             );
 
-            return Task.FromResult<object>(default!);
+            return Task.FromResult<object?>(null);
         }
 
         await eventBus.PublishAsync(
             new NotifySentIntegrationEvent(input.CustomerId, input.Message)
         );
 
-        return Task.FromResult<object>(default!);
+        return Task.FromResult<object?>(null);
     }
 }

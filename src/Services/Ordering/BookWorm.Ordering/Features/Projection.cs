@@ -1,10 +1,6 @@
-﻿using System.ComponentModel;
-using BookWorm.Ordering.Domain;
+﻿using BookWorm.Ordering.Domain;
 using BookWorm.Ordering.Domain.Events;
-using BookWorm.SharedKernel.Endpoints;
-using Marten;
 using Marten.AspNetCore;
-using Marten.Events.Projections;
 
 namespace BookWorm.Ordering.Features;
 

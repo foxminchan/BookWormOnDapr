@@ -1,9 +1,4 @@
-﻿using BookWorm.SharedKernel.Endpoints;
-using BookWorm.SharedKernel.Models;
-using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
-
-namespace BookWorm.Basket.Features.Create;
+﻿namespace BookWorm.Basket.Features.Create;
 
 internal sealed class CreateBasketEndpoint : IEndpoint<Created<Guid>, CreateBasketCommand, ISender>
 {

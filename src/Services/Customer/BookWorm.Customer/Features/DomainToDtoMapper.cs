@@ -6,7 +6,7 @@ public static class DomainToDtoMapper
 {
     public static ConsumerDto ToConsumerDto(this Consumer consumer)
     {
-        return new ConsumerDto(
+        return new(
             consumer.Id,
             consumer.FirstName,
             consumer.LastName,
@@ -19,13 +19,7 @@ public static class DomainToDtoMapper
 
     public static AddressDto ToAddressDto(this Address address)
     {
-        return new AddressDto(
-            address.Street,
-            address.City,
-            address.State,
-            address.Country,
-            address.ZipCode
-        );
+        return new(address.Street, address.City, address.State, address.Country, address.ZipCode);
     }
 
     public static IReadOnlyList<ConsumerDto> ToConsumerDtos(this List<Consumer>? consumers)

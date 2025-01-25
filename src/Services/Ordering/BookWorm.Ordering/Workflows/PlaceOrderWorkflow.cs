@@ -2,7 +2,6 @@
 using BookWorm.Ordering.Contracts;
 using BookWorm.Ordering.Domain;
 using BookWorm.Ordering.IntegrationEvents.Events;
-using Dapr.Workflow;
 
 namespace BookWorm.Ordering.Workflows;
 
@@ -11,9 +10,9 @@ internal sealed record PlaceOrderWorkflowResult(bool IsSuccess, string? ErrorMes
 internal sealed class PlaceOrderWorkflow
     : Workflow<UserCheckedOutIntegrationEvent, PlaceOrderWorkflowResult>
 {
-    private readonly WorkflowTaskOptions retryOptions = new()
+    private readonly WorkflowTaskOptions _retryOptions = new()
     {
-        RetryPolicy = new WorkflowRetryPolicy(
+        RetryPolicy = new(
             backoffCoefficient: 2.0,
             maxRetryInterval: TimeSpan.FromHours(1),
             maxNumberOfAttempts: 10,
@@ -30,16 +29,16 @@ internal sealed class PlaceOrderWorkflow
 
         // Retrieve product details for the items in the order
         var productDetailsTask = context.CallActivityAsync<Dictionary<Guid, decimal>>(
-            nameof(GetProductInfomationActivity),
+            nameof(GetProductInformationActivity),
             input.Items.Select(i => i.Id).ToList(),
-            retryOptions
+            _retryOptions
         );
 
         // Determine if there is enough of the item available for purchase by checking the inventory
         var inventoryTask = context.CallActivityAsync<InventoryResult>(
             nameof(ReserveInventoryActivity),
             input.Items.Select(i => i.Id).ToList(),
-            retryOptions
+            _retryOptions
         );
 
         // Fan-out to retrieve product details and inventory
@@ -75,7 +74,7 @@ internal sealed class PlaceOrderWorkflow
         var isApproval = await context.CallChildWorkflowAsync<bool>(
             nameof(OrderApprovalSubWorkflow),
             new ApprovalRequest(order.Id, total, input.CustomerId),
-            new ChildWorkflowTaskOptions($"{context.InstanceId}-sub")
+            new($"{context.InstanceId}-sub")
         );
 
         if (!isApproval)
@@ -86,7 +85,7 @@ internal sealed class PlaceOrderWorkflow
         context.SetCustomStatus("Placing the order...");
 
         // Store the order information
-        await context.CallActivityAsync<Guid>(nameof(PlaceOrderActivity), order, retryOptions);
+        await context.CallActivityAsync<Guid>(nameof(PlaceOrderActivity), order, _retryOptions);
 
         // Notify user about successful order placement
         await context.CallActivityAsync(

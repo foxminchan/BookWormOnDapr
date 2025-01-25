@@ -1,8 +1,4 @@
-﻿using Ardalis.Result;
-using BookWorm.Customer.Domain;
-using BookWorm.SharedKernel.Endpoints;
-using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
+﻿using BookWorm.Customer.Domain;
 
 namespace BookWorm.Customer.Features.List;
 

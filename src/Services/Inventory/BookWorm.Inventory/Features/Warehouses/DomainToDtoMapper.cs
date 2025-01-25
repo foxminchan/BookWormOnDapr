@@ -7,7 +7,7 @@ public static class DomainToDtoMapper
 {
     public static WarehouseDto ToWarehouseDto(this Warehouse warehouse)
     {
-        return new WarehouseDto(
+        return new(
             warehouse.Id,
             warehouse.Location,
             warehouse.Status,
@@ -21,9 +21,9 @@ public static class DomainToDtoMapper
         return warehouses.Select(warehouse => warehouse.ToWarehouseDto()).ToList();
     }
 
-    public static WareouseDetailDto ToWarehouseDetailDto(this Warehouse warehouse)
+    public static WarehouseDetailDto ToWarehouseDetailDto(this Warehouse warehouse)
     {
-        return new WareouseDetailDto(
+        return new(
             warehouse.Id,
             warehouse.Location,
             warehouse.Status,
