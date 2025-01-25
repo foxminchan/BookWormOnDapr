@@ -4,14 +4,10 @@ metadata:
   name: pubsub
   namespace: bookworm
 spec:
-  type: pubsub.rabbitmq
+  type: pubsub.kafka
   version: v1
   metadata:
-    - name: protocol
-      value: amqp
-    - name: hostname
-      value: localhost
-    - name: username
-      value: guest
-    - name: password
-      value: guest
+    - name: brokers
+      value: localhost:9092
+    - name: authType
+      value: none
