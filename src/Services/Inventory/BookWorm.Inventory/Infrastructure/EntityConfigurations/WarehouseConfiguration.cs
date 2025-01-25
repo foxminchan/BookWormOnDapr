@@ -1,6 +1,4 @@
-﻿using BookWorm.Constants;
-using BookWorm.Inventory.Domain;
-using Microsoft.EntityFrameworkCore;
+﻿using BookWorm.Inventory.Domain;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BookWorm.Inventory.Infrastructure.EntityConfigurations;

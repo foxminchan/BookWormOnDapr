@@ -1,6 +1,4 @@
 ﻿using BookWorm.Customer.Domain;
-using BookWorm.SharedKernel.EF;
-using Microsoft.EntityFrameworkCore;
 
 namespace BookWorm.Customer.Infrastructure;
 

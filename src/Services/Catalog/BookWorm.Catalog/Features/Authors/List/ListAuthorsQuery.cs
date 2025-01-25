@@ -1,13 +1,10 @@
-﻿using Ardalis.Result;
-using BookWorm.Catalog.Domain;
-using BookWorm.SharedKernel.Query;
-using BookWorm.SharedKernel.Repositories;
+﻿using BookWorm.Catalog.Domain;
 
 namespace BookWorm.Catalog.Features.Authors.List;
 
 internal sealed record ListAuthorsQuery : IQuery<Result<IReadOnlyList<AuthorDto>>>;
 
-internal sealed record ListAuthorsHandler(IReadRepository<Author> repository)
+internal sealed class ListAuthorsHandler(IReadRepository<Author> repository)
     : IQueryHandler<ListAuthorsQuery, Result<IReadOnlyList<AuthorDto>>>
 {
     public async Task<Result<IReadOnlyList<AuthorDto>>> Handle(

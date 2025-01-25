@@ -1,19 +1,6 @@
-﻿using System.Text.Json;
-using BookWorm.Basket.Domain;
+﻿using BookWorm.Basket.Domain;
 using BookWorm.Basket.IntegrationEvents.EventHandlers;
 using BookWorm.Basket.Repositories;
-using BookWorm.ServiceDefaults;
-using BookWorm.SharedKernel.ActivityScope;
-using BookWorm.SharedKernel.Command;
-using BookWorm.SharedKernel.Converters;
-using BookWorm.SharedKernel.Endpoints;
-using BookWorm.SharedKernel.EventBus;
-using BookWorm.SharedKernel.EventBus.Abstractions;
-using BookWorm.SharedKernel.Exceptions;
-using BookWorm.SharedKernel.Pipelines;
-using BookWorm.SharedKernel.Query;
-using BookWorm.SharedKernel.Versioning;
-using FluentValidation;
 
 namespace BookWorm.Basket.Extensions;
 
@@ -22,6 +9,8 @@ internal static class Extensions
     public static void AddApplicationServices(this IHostApplicationBuilder builder)
     {
         builder.AddServiceDefaults();
+
+        builder.AddDefaultAuthentication();
 
         builder.AddVersioning();
 

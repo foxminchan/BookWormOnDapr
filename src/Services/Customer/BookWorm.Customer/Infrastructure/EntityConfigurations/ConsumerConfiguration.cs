@@ -1,6 +1,4 @@
-﻿using BookWorm.Constants;
-using BookWorm.Customer.Domain;
-using Microsoft.EntityFrameworkCore;
+﻿using BookWorm.Customer.Domain;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BookWorm.Customer.Infrastructure.EntityConfigurations;
@@ -37,6 +35,7 @@ internal sealed class ConsumerConfiguration : IEntityTypeConfiguration<Consumer>
                 a.Property(e => e.City).HasMaxLength(DataSchemaLength.Medium).IsRequired();
                 a.Property(e => e.State).HasMaxLength(DataSchemaLength.Medium).IsRequired();
                 a.Property(e => e.ZipCode).HasMaxLength(DataSchemaLength.Small).IsRequired();
+                a.Property(e => e.Country).HasMaxLength(DataSchemaLength.Medium).IsRequired();
             }
         );
     }

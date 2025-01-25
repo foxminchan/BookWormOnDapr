@@ -1,7 +1,4 @@
-﻿using Ardalis.Result;
-using BookWorm.Customer.Domain;
-using BookWorm.SharedKernel.Command;
-using BookWorm.SharedKernel.Repositories;
+﻿using BookWorm.Customer.Domain;
 
 namespace BookWorm.Customer.Features.Create;
 
@@ -32,13 +29,7 @@ internal sealed class CreateConsumerHandler(IRepository<Consumer> repository)
             request.Email,
             request.PhoneNumber,
             request.DateOfBirth,
-            new Address(
-                request.Street,
-                request.City,
-                request.State,
-                request.Country,
-                request.ZipCode
-            )
+            new(request.Street, request.City, request.State, request.Country, request.ZipCode)
         );
 
         var result = await repository.AddAsync(consumer, cancellationToken);

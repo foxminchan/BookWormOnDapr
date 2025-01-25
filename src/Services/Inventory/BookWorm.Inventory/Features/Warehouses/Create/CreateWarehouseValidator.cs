@@ -1,7 +1,4 @@
-﻿using BookWorm.Constants;
-using FluentValidation;
-
-namespace BookWorm.Inventory.Features.Warehouses.Create;
+﻿namespace BookWorm.Inventory.Features.Warehouses.Create;
 
 internal sealed class CreateWarehouseValidator : AbstractValidator<CreateWarehouseCommand>
 {
@@ -19,10 +16,10 @@ internal sealed class CreateWarehouseValidator : AbstractValidator<CreateWarehou
             .NotEmpty()
             .ForEach(stock =>
             {
-                stock.ChildRules(stock =>
+                stock.ChildRules(rules =>
                 {
-                    stock.RuleFor(x => x.ProductId).NotEmpty();
-                    stock.RuleFor(x => x.Quantity).GreaterThan(0);
+                    rules.RuleFor(x => x.ProductId).NotEmpty();
+                    rules.RuleFor(x => x.Quantity).GreaterThan(0);
                 });
             });
     }

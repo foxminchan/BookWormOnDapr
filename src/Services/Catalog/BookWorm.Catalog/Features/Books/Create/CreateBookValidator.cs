@@ -1,6 +1,4 @@
 ﻿using System.Net.Mime;
-using BookWorm.Constants;
-using FluentValidation;
 
 namespace BookWorm.Catalog.Features.Books.Create;
 
@@ -35,9 +33,7 @@ internal sealed class CreateBookValidator : AbstractValidator<CreateBookCommand>
                             );
                         image
                             .RuleFor(x => x.ContentType)
-                            .Must(x =>
-                                x == MediaTypeNames.Image.Jpeg || x == MediaTypeNames.Image.Png
-                            )
+                            .Must(x => x is MediaTypeNames.Image.Jpeg or MediaTypeNames.Image.Png)
                             .WithMessage(
                                 "File type is not allowed. Allowed file types are JPEG and PNG."
                             );
@@ -46,8 +42,5 @@ internal sealed class CreateBookValidator : AbstractValidator<CreateBookCommand>
         );
     }
 
-    private bool IsHasFiles(CreateBookCommand command)
-    {
-        return command.Image is not null;
-    }
+    private static bool IsHasFiles(CreateBookCommand command) => command.Image is not null;
 }

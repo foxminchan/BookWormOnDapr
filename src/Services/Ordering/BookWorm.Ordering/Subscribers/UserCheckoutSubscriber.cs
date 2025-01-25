@@ -1,7 +1,5 @@
-﻿using BookWorm.Constants;
-using BookWorm.Ordering.IntegrationEvents.EventHandlers;
+﻿using BookWorm.Ordering.IntegrationEvents.EventHandlers;
 using BookWorm.Ordering.IntegrationEvents.Events;
-using BookWorm.SharedKernel.Endpoints;
 using Dapr;
 
 namespace BookWorm.Ordering.Subscribers;
@@ -9,8 +7,8 @@ namespace BookWorm.Ordering.Subscribers;
 internal sealed class UserCheckoutSubscriber
     : ISubscriber<UserCheckoutIntegrationEventHandler, UserCheckedOutIntegrationEvent>
 {
-    public TopicOptions topicOptions { get; set; } =
-        new TopicOptions
+    public TopicOptions TopicOptions { get; set; } =
+        new()
         {
             PubsubName = ServiceName.Component.Pubsub,
             Name = nameof(UserCheckedOutIntegrationEvent),
@@ -19,13 +17,13 @@ internal sealed class UserCheckoutSubscriber
     public void MapIntegrationEventEndpoint(IEndpointRouteBuilder app)
     {
         app.MapPost(
-                $"/{topicOptions.Name}",
+                $"/{TopicOptions.Name}",
                 async (
                     UserCheckoutIntegrationEventHandler handler,
                     UserCheckedOutIntegrationEvent @event
                 ) => await HandleAsync(handler, @event)
             )
-            .WithTopic(topicOptions)
+            .WithTopic(TopicOptions)
             .ExcludeFromDescription();
     }
 

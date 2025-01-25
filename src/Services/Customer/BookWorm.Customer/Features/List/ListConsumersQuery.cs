@@ -1,10 +1,5 @@
-﻿using System.ComponentModel;
-using Ardalis.Result;
-using BookWorm.Constants;
-using BookWorm.Customer.Domain;
+﻿using BookWorm.Customer.Domain;
 using BookWorm.Customer.Domain.Specifications;
-using BookWorm.SharedKernel.Query;
-using BookWorm.SharedKernel.Repositories;
 
 namespace BookWorm.Customer.Features.List;
 
@@ -55,7 +50,7 @@ internal sealed class ListConsumersHandler(IReadRepository<Consumer> repository)
         CancellationToken cancellationToken
     )
     {
-        var consumers = await repository.ListAsync(
+        var consumers = repository.ListAsync(
             new ConsumerFilterSpec(
                 request.PageIndex,
                 request.PageSize,
@@ -73,7 +68,7 @@ internal sealed class ListConsumersHandler(IReadRepository<Consumer> repository)
             cancellationToken
         );
 
-        var totalRecords = await repository.CountAsync(
+        var totalRecords = repository.CountAsync(
             new ConsumerFilterSpec(
                 request.Email,
                 request.PhoneNumber,
@@ -87,10 +82,17 @@ internal sealed class ListConsumersHandler(IReadRepository<Consumer> repository)
             cancellationToken
         );
 
-        var totalPages = (int)Math.Ceiling(totalRecords / (double)request.PageSize);
+        await Task.WhenAll(consumers, totalRecords);
 
-        PagedInfo pagedInfo = new(request.PageIndex, request.PageSize, totalRecords, totalPages);
+        var totalPages = (int)Math.Ceiling(totalRecords.Result / (double)request.PageSize);
 
-        return new(pagedInfo, consumers.ToConsumerDtos());
+        PagedInfo pagedInfo = new(
+            request.PageIndex,
+            request.PageSize,
+            totalRecords.Result,
+            totalPages
+        );
+
+        return new(pagedInfo, consumers.Result.ToConsumerDtos());
     }
 }

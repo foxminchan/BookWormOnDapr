@@ -1,8 +1,5 @@
-﻿using Ardalis.Result;
-using BookWorm.Inventory.Domain;
+﻿using BookWorm.Inventory.Domain;
 using BookWorm.Inventory.Domain.Specifications;
-using BookWorm.SharedKernel.Command;
-using BookWorm.SharedKernel.Repositories;
 
 namespace BookWorm.Inventory.Features.Stocks.Remove;
 

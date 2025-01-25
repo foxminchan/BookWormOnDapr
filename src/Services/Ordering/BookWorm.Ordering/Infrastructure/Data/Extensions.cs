@@ -1,8 +1,4 @@
-﻿using BookWorm.Constants;
-using BookWorm.SharedKernel.EF;
-using BookWorm.SharedKernel.Repositories;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
+﻿using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace BookWorm.Ordering.Infrastructure.Data;
 

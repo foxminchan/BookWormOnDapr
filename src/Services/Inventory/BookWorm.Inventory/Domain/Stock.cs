@@ -1,15 +1,7 @@
-﻿using Ardalis.GuardClauses;
-using BookWorm.SharedKernel.Core.Model;
+﻿namespace BookWorm.Inventory.Domain;
 
-namespace BookWorm.Inventory.Domain;
-
-public sealed class Stock : Entity<long>
+public sealed class Stock() : Entity<long>
 {
-    public Stock()
-    {
-        // EF Core
-    }
-
     public long WarehouseId { get; private set; }
     public Guid ProductId { get; private set; }
     public int Quantity { get; private set; }

@@ -1,7 +1,4 @@
-﻿using Ardalis.Result;
-using BookWorm.Catalog.Domain;
-using BookWorm.SharedKernel.Command;
-using BookWorm.SharedKernel.Repositories;
+﻿using BookWorm.Catalog.Domain;
 
 namespace BookWorm.Catalog.Features.Categories.Delete;
 

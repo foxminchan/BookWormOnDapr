@@ -1,0 +1,12 @@
+global using System.Text.Json;
+global using BookWorm.ServiceDefaults;
+global using BookWorm.SharedKernel.ActivityScope;
+global using BookWorm.SharedKernel.Command;
+global using BookWorm.SharedKernel.Converters;
+global using BookWorm.SharedKernel.Endpoints;
+global using BookWorm.SharedKernel.Exceptions;
+global using BookWorm.SharedKernel.Pipelines;
+global using BookWorm.SharedKernel.Query;
+global using BookWorm.SharedKernel.Versioning;
+global using FluentValidation;
+global using Microsoft.AspNetCore.Http.Json;

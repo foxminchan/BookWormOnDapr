@@ -1,15 +1,14 @@
 ﻿using BookWorm.Ordering.Activities;
 using BookWorm.Ordering.Contracts;
 using BookWorm.Ordering.IntegrationEvents.Events;
-using Dapr.Workflow;
 
 namespace BookWorm.Ordering.Workflows;
 
 internal sealed class OrderApprovalSubWorkflow : Workflow<ApprovalRequest, bool>
 {
-    private readonly WorkflowTaskOptions retryOptions = new()
+    private readonly WorkflowTaskOptions _retryOptions = new()
     {
-        RetryPolicy = new WorkflowRetryPolicy(
+        RetryPolicy = new(
             backoffCoefficient: 2.0,
             maxRetryInterval: TimeSpan.FromHours(1),
             maxNumberOfAttempts: 10,
@@ -19,29 +18,33 @@ internal sealed class OrderApprovalSubWorkflow : Workflow<ApprovalRequest, bool>
 
     public override async Task<bool> RunAsync(WorkflowContext context, ApprovalRequest input)
     {
-        const decimal Threshold = 15000.0m;
+        const decimal threshold = 15000.0m;
 
-        if (input.Total >= Threshold)
+        if (input.Total < threshold)
         {
-            context.SetCustomStatus("Requesting approval for the order");
+            return true;
+        }
 
-            // Request approval for the order from the manager
-            await context.CallActivityAsync(nameof(RequestApprovalActivity), input, retryOptions);
+        context.SetCustomStatus("Requesting approval for the order");
 
-            try
+        // Request approval for the order from the manager
+        await context.CallActivityAsync(nameof(RequestApprovalActivity), input, _retryOptions);
+
+        try
+        {
+            // Wait for approval
+            context.SetCustomStatus("Waiting for approval...");
+            var result =
+                await context.WaitForExternalEventAsync<AdminApprovalResultedIntegrationEvent>(
+                    nameof(AdminApprovalResultedIntegrationEvent),
+                    TimeSpan.FromMinutes(15)
+                );
+
+            context.SetCustomStatus($"Approval result: {result.ApprovalResult}");
+
+            switch (result.ApprovalResult)
             {
-                // Wait for approval
-                context.SetCustomStatus("Waiting for approval...");
-                var result =
-                    await context.WaitForExternalEventAsync<AdminApprovalResultedIntegrationEvent>(
-                        nameof(AdminApprovalResultedIntegrationEvent),
-                        TimeSpan.FromMinutes(15)
-                    );
-
-                context.SetCustomStatus($"Approval result: {result.ApprovalResult}");
-
-                if (result.ApprovalResult == Approval.Rejected)
-                {
+                case Approval.Rejected:
                     context.SetCustomStatus("Approval was denied");
 
                     // Notify user about approval denial
@@ -54,9 +57,7 @@ internal sealed class OrderApprovalSubWorkflow : Workflow<ApprovalRequest, bool>
                     );
 
                     return false;
-                }
-                else if (result.ApprovalResult == Approval.Unspecified)
-                {
+                case Approval.Unspecified:
                     context.SetCustomStatus("Approval was not received");
 
                     // Notify user about approval denial
@@ -69,23 +70,27 @@ internal sealed class OrderApprovalSubWorkflow : Workflow<ApprovalRequest, bool>
                     );
 
                     return false;
-                }
+                case Approval.Approved:
+                    context.SetCustomStatus("Approval was received");
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
-            catch (TimeoutException)
-            {
-                context.SetCustomStatus("Due to timeout, the approval was not received");
+        }
+        catch (TimeoutException)
+        {
+            context.SetCustomStatus("Due to timeout, the approval was not received");
 
-                // Notify user about approval timeout
-                await context.CallActivityAsync(
-                    nameof(NotifyActivity),
-                    new Notification(
-                        "Cancelling order because it didn't receive an approval",
-                        input.CustomerId
-                    )
-                );
+            // Notify user about approval timeout
+            await context.CallActivityAsync(
+                nameof(NotifyActivity),
+                new Notification(
+                    "Cancelling order because it didn't receive an approval",
+                    input.CustomerId
+                )
+            );
 
-                return false;
-            }
+            return false;
         }
 
         return true;

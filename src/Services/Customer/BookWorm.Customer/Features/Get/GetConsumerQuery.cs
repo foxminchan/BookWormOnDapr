@@ -1,8 +1,5 @@
-﻿using Ardalis.Result;
-using BookWorm.Customer.Domain;
+﻿using BookWorm.Customer.Domain;
 using BookWorm.Customer.Domain.Specifications;
-using BookWorm.SharedKernel.Query;
-using BookWorm.SharedKernel.Repositories;
 
 namespace BookWorm.Customer.Features.Get;
 

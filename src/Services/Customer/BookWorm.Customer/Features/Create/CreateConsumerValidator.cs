@@ -1,7 +1,4 @@
-﻿using BookWorm.Constants;
-using FluentValidation;
-
-namespace BookWorm.Customer.Features.Create;
+﻿namespace BookWorm.Customer.Features.Create;
 
 internal sealed class CreateConsumerValidator : AbstractValidator<CreateConsumerCommand>
 {

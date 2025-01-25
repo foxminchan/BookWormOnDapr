@@ -1,8 +1,5 @@
-﻿using BookWorm.Constants;
-using BookWorm.Ordering.Infrastructure.EventStore.Configs;
-using BookWorm.SharedKernel.ActivityScope;
+﻿using BookWorm.Ordering.Infrastructure.EventStore.Configs;
 using JasperFx.CodeGeneration;
-using Marten;
 
 namespace BookWorm.Ordering.Infrastructure.EventStore;
 

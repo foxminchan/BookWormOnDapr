@@ -1,10 +1,6 @@
 ﻿using Bogus;
 using BookWorm.Catalog.Domain;
 using BookWorm.Catalog.Domain.BookAggregate;
-using BookWorm.Constants;
-using BookWorm.SharedKernel.EF;
-using BookWorm.SharedKernel.Repositories;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace BookWorm.Catalog.Infrastructure.Data;

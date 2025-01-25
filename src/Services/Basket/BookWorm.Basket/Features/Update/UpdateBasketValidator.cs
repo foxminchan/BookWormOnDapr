@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace BookWorm.Basket.Features.Update;
+﻿namespace BookWorm.Basket.Features.Update;
 
 internal sealed class UpdateBasketValidator : AbstractValidator<UpdateBasketCommand>
 {
@@ -13,8 +11,8 @@ internal sealed class UpdateBasketValidator : AbstractValidator<UpdateBasketComm
             .ForEach(x =>
                 x.ChildRules(item =>
                 {
-                    item.RuleFor(x => x.Id).NotEmpty();
-                    item.RuleFor(x => x.Quantity).GreaterThan(0);
+                    item.RuleFor(y => y.Id).NotEmpty();
+                    item.RuleFor(y => y.Quantity).GreaterThan(0);
                 })
             );
     }

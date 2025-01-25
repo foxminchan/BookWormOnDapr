@@ -1,7 +1,4 @@
-﻿using BookWorm.Constants;
-using FluentValidation;
-
-namespace BookWorm.Customer.Features.Update;
+﻿namespace BookWorm.Customer.Features.UpdateInformation;
 
 internal sealed class UpdateConsumerInformationValidator
     : AbstractValidator<UpdateConsumerInformationCommand>

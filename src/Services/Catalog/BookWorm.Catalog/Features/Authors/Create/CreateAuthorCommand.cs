@@ -1,13 +1,10 @@
-﻿using Ardalis.Result;
-using BookWorm.Catalog.Domain;
-using BookWorm.SharedKernel.Command;
-using BookWorm.SharedKernel.Repositories;
+﻿using BookWorm.Catalog.Domain;
 
 namespace BookWorm.Catalog.Features.Authors.Create;
 
 internal sealed record CreateAuthorCommand(string Name) : ICommand<Result<Guid>>;
 
-internal sealed record CreateAuthorHandler(IRepository<Author> Repository)
+internal sealed class CreateAuthorHandler(IRepository<Author> repository)
     : ICommandHandler<CreateAuthorCommand, Result<Guid>>
 {
     public async Task<Result<Guid>> Handle(
@@ -17,7 +14,7 @@ internal sealed record CreateAuthorHandler(IRepository<Author> Repository)
     {
         var author = new Author(command.Name);
 
-        await Repository.AddAsync(author, cancellationToken);
+        await repository.AddAsync(author, cancellationToken);
 
         return author.Id;
     }

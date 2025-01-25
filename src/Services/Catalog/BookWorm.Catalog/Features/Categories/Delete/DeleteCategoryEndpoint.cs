@@ -1,10 +1,4 @@
-﻿using System.ComponentModel;
-using Ardalis.Result;
-using BookWorm.Catalog.Domain;
-using BookWorm.SharedKernel.Endpoints;
-using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using BookWorm.Catalog.Domain;
 
 namespace BookWorm.Catalog.Features.Categories.Delete;
 

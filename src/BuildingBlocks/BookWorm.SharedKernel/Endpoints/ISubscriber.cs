@@ -5,7 +5,7 @@ namespace BookWorm.SharedKernel.Endpoints;
 
 public interface ISubscriber
 {
-    TopicOptions topicOptions { get; set; }
+    TopicOptions TopicOptions { get; set; }
     void MapIntegrationEventEndpoint(IEndpointRouteBuilder app);
 }
 

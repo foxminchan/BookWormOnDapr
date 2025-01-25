@@ -8,7 +8,7 @@
 
 ⭐ This pet project is dedicated to streamlining microservices development using Aspire, Dapr, and the Radius Platform. Its primary objective is to provide a cutting-edge application development experience that prioritizes developer productivity, scalability, and reliability.
 
-💡 The focus of this project is not on business logic but on the architecture, design, and development of a modern microservices application. It incorporates various design patterns, principles and concepts commonly used in microservices, including Domain-Driven Design (DDD), pub/sub, Sidecar Pattern, Event Sourcing, and CQRS.
+💡 The focus of this project is not only on business logic but also on the architecture, design, and development of a modern microservices application. It incorporates various design patterns, principles and concepts commonly used in microservices, including Domain-Driven Design (DDD), pub/sub, Sidecar Pattern, Event Sourcing, and CQRS.
 
 <div>
   <a href="https://codespaces.new/foxminchan/BookWormOnDapr?quickstart=1">
@@ -22,9 +22,11 @@
 - [x] Implementing a microservices architecture with DDD, CQRS, and Event Sourcing
 - [x] Using the Sidecar Pattern to integrate Dapr with existing applications
 - [x] Using Vertical Slice Architecture to organize the codebase
-- [x] Using Keycloak IDP for authentication and authorization
+- [x] Using Duende IdentityServer for authentication and authorization
 - [x] Using Kafka for pub/sub messaging
 - [ ] Using NUKE for build automation
+- [ ] Integrating LLM with the application
+- [ ] Integrating with the Radius Platform for deployment
 
 ## Software Architecture
 

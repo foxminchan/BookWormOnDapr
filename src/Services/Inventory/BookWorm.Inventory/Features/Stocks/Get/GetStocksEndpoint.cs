@@ -1,7 +1,4 @@
 ﻿using BookWorm.Inventory.Domain;
-using BookWorm.SharedKernel.Endpoints;
-using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace BookWorm.Inventory.Features.Stocks.Get;
 
@@ -13,7 +10,7 @@ internal sealed class GetStocksEndpoint : IEndpoint<Ok<Dictionary<Guid, int>>, G
                 "/stocks",
                 async (Guid[] productIds, ISender sender) => await HandleAsync(productIds, sender)
             )
-            .Produces<Dictionary<Guid, int>>(StatusCodes.Status200OK)
+            .Produces<Dictionary<Guid, int>>()
             .WithOpenApi()
             .WithTags(nameof(Stock))
             .MapToApiVersion(new(1, 0));

@@ -1,9 +1,5 @@
-﻿using Ardalis.Result;
-using BookWorm.Basket.Contracts;
-using BookWorm.Basket.Domain;
+﻿using BookWorm.Basket.Domain;
 using BookWorm.Basket.IntegrationEvents.Events;
-using BookWorm.SharedKernel.Command;
-using BookWorm.SharedKernel.EventBus.Abstractions;
 
 namespace BookWorm.Basket.Features.CheckOut;
 

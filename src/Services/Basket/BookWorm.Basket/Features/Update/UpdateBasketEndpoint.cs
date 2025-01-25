@@ -1,8 +1,4 @@
-﻿using BookWorm.SharedKernel.Endpoints;
-using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
-
-namespace BookWorm.Basket.Features.Update;
+﻿namespace BookWorm.Basket.Features.Update;
 
 internal sealed class UpdateBasketEndpoint : IEndpoint<NoContent, UpdateBasketCommand, ISender>
 {

@@ -1,11 +1,6 @@
-﻿using System.ComponentModel;
-using Ardalis.Result;
-using BookWorm.Catalog.Domain.BookAggregate;
+﻿using BookWorm.Catalog.Domain.BookAggregate;
 using BookWorm.Catalog.Domain.BookAggregate.Specifications;
 using BookWorm.Catalog.Infrastructure.Blob;
-using BookWorm.Constants;
-using BookWorm.SharedKernel.Query;
-using BookWorm.SharedKernel.Repositories;
 
 namespace BookWorm.Catalog.Features.Books.List;
 

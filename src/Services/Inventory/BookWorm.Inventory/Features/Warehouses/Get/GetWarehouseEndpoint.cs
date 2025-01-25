@@ -1,15 +1,9 @@
-﻿using System.ComponentModel;
-using Ardalis.Result;
-using BookWorm.Inventory.Domain;
-using BookWorm.SharedKernel.Endpoints;
-using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using BookWorm.Inventory.Domain;
 
 namespace BookWorm.Inventory.Features.Warehouses.Get;
 
 internal sealed class GetWarehouseEndpoint
-    : IEndpoint<Results<Ok<WareouseDetailDto>, NotFound<ProblemDetails>>, long, ISender>
+    : IEndpoint<Results<Ok<WarehouseDetailDto>, NotFound<ProblemDetails>>, long, ISender>
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
@@ -18,14 +12,14 @@ internal sealed class GetWarehouseEndpoint
                 async ([Description("The warehouse id")] long id, ISender sender) =>
                     await HandleAsync(id, sender)
             )
-            .Produces<WareouseDetailDto>(StatusCodes.Status200OK)
+            .Produces<WarehouseDetailDto>()
             .ProducesProblem(StatusCodes.Status404NotFound)
             .WithOpenApi()
             .WithTags(nameof(Warehouse))
             .MapToApiVersion(new(1, 0));
     }
 
-    public async Task<Results<Ok<WareouseDetailDto>, NotFound<ProblemDetails>>> HandleAsync(
+    public async Task<Results<Ok<WarehouseDetailDto>, NotFound<ProblemDetails>>> HandleAsync(
         long id,
         ISender sender,
         CancellationToken cancellationToken = default

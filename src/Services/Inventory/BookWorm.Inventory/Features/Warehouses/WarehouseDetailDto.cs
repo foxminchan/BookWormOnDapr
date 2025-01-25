@@ -3,7 +3,7 @@ using BookWorm.Inventory.Features.Stocks;
 
 namespace BookWorm.Inventory.Features.Warehouses;
 
-public sealed record WareouseDetailDto(
+public sealed record WarehouseDetailDto(
     long Id,
     string? Location,
     WarehouseStatus Status,

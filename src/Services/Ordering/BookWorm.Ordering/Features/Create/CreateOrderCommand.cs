@@ -1,8 +1,4 @@
-﻿using Ardalis.Result;
-using BookWorm.Ordering.Domain;
-using BookWorm.Shared.EF;
-using BookWorm.SharedKernel.Command;
-using BookWorm.SharedKernel.Repositories;
+﻿using BookWorm.Ordering.Domain;
 
 namespace BookWorm.Ordering.Features.Create;
 

@@ -1,17 +1,5 @@
-﻿using System.Text.Json;
-using BookWorm.Catalog.Infrastructure.Blob;
+﻿using BookWorm.Catalog.Infrastructure.Blob;
 using BookWorm.Catalog.Infrastructure.Data;
-using BookWorm.Constants;
-using BookWorm.ServiceDefaults;
-using BookWorm.SharedKernel.ActivityScope;
-using BookWorm.SharedKernel.Command;
-using BookWorm.SharedKernel.Converters;
-using BookWorm.SharedKernel.Endpoints;
-using BookWorm.SharedKernel.Exceptions;
-using BookWorm.SharedKernel.Pipelines;
-using BookWorm.SharedKernel.Query;
-using BookWorm.SharedKernel.Versioning;
-using FluentValidation;
 
 namespace BookWorm.Catalog.Extensions;
 
@@ -20,6 +8,8 @@ internal static class Extensions
     public static void AddApplicationServices(this IHostApplicationBuilder builder)
     {
         builder.AddServiceDefaults();
+
+        builder.AddDefaultAuthentication();
 
         builder.AddVersioning();
 
@@ -58,11 +48,10 @@ internal static class Extensions
         builder.Services.AddSingleton<IActivityScope, ActivityScope>();
         builder.Services.AddSingleton<CommandHandlerMetrics>();
         builder.Services.AddSingleton<QueryHandlerMetrics>();
+        builder.Services.AddSingleton<IBlobService, BlobService>();
 
         builder.AddPersistence();
 
         builder.AddAzureBlobClient(ServiceName.Blob);
-
-        builder.Services.AddSingleton<IBlobService, BlobService>();
     }
 }

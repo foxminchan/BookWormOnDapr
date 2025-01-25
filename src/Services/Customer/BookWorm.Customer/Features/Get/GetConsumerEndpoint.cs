@@ -1,10 +1,4 @@
-﻿using System.ComponentModel;
-using Ardalis.Result;
-using BookWorm.Customer.Domain;
-using BookWorm.SharedKernel.Endpoints;
-using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using BookWorm.Customer.Domain;
 
 namespace BookWorm.Customer.Features.Get;
 
@@ -18,7 +12,7 @@ internal sealed class GetConsumerEndpoint
                 async ([Description("The consumer id")] Guid id, ISender sender) =>
                     await HandleAsync(id, sender)
             )
-            .Produces<ConsumerDto>(StatusCodes.Status200OK)
+            .Produces<ConsumerDto>()
             .ProducesProblem(StatusCodes.Status404NotFound)
             .WithOpenApi()
             .WithTags(nameof(Consumer))

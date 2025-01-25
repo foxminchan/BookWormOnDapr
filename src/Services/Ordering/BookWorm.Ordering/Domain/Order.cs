@@ -1,24 +1,17 @@
-﻿using Ardalis.GuardClauses;
-using BookWorm.Ordering.Domain.Events;
-using BookWorm.SharedKernel.Core.Model;
-using BookWorm.SharedKernel.Models;
+﻿using BookWorm.Ordering.Domain.Events;
+using BookWorm.SharedKernel.Core;
 
 namespace BookWorm.Ordering.Domain;
 
-public sealed class Order : AuditableEntity, IAggregateRoot, ISoftDelete
+public sealed class Order() : AuditableEntity, IAggregateRoot, ISoftDelete
 {
-    public Order()
-    {
-        _items = [];
-    }
-
     public int No { get; private set; }
     public string? Notes { get; private set; }
     public Guid? ConsumerId { get; private set; }
     public OrderStatus Status { get; private set; }
     public bool IsDeleted { get; set; }
 
-    private readonly List<Item> _items;
+    private readonly List<Item> _items = [];
     public IReadOnlyCollection<Item> Items => _items.AsReadOnly();
 
     public Order(string? notes, Guid? consumerId, List<Item> items)

@@ -1,8 +1,6 @@
-﻿using Dapr.Workflow;
+﻿namespace BookWorm.Ordering.Activities;
 
-namespace BookWorm.Ordering.Activities;
-
-internal sealed class GetProductInfomationActivity
+internal sealed class GetProductInformationActivity
     : WorkflowActivity<List<Guid>, Dictionary<Guid, decimal>>
 {
     public override Task<Dictionary<Guid, decimal>> RunAsync(

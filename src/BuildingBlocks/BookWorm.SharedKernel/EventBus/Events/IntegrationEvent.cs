@@ -2,13 +2,7 @@
 
 public record IntegrationEvent
 {
-    public Guid Id { get; }
+    public Guid Id { get; } = Guid.CreateVersion7();
 
-    public DateTime CreationDate { get; }
-
-    public IntegrationEvent()
-    {
-        Id = Guid.CreateVersion7();
-        CreationDate = DateTime.UtcNow;
-    }
+    public DateTime CreationDate { get; } = DateTime.UtcNow;
 }

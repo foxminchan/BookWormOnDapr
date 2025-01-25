@@ -1,14 +1,11 @@
-﻿using Ardalis.Result;
-using BookWorm.Inventory.Domain;
+﻿using BookWorm.Inventory.Domain;
 using BookWorm.Inventory.Domain.Specifications;
-using BookWorm.SharedKernel.Command;
-using BookWorm.SharedKernel.Repositories;
 
 namespace BookWorm.Inventory.Features.Warehouses.Delete;
 
 internal sealed record DeleteWarehouseCommand(long Id) : ICommand;
 
-internal sealed class DeleteWarehouseHandler(IRepository<Warehouse> Repository)
+internal sealed class DeleteWarehouseHandler(IRepository<Warehouse> repository)
     : ICommandHandler<DeleteWarehouseCommand>
 {
     public async Task<Result> Handle(
@@ -16,7 +13,7 @@ internal sealed class DeleteWarehouseHandler(IRepository<Warehouse> Repository)
         CancellationToken cancellationToken
     )
     {
-        var warehouse = await Repository.FirstOrDefaultAsync(
+        var warehouse = await repository.FirstOrDefaultAsync(
             new WarehouseFilterSpec(request.Id),
             cancellationToken
         );
@@ -28,7 +25,7 @@ internal sealed class DeleteWarehouseHandler(IRepository<Warehouse> Repository)
 
         warehouse.Delete();
 
-        await Repository.SaveChangesAsync(cancellationToken);
+        await repository.SaveChangesAsync(cancellationToken);
 
         return Result.NoContent();
     }

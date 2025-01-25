@@ -1,17 +1,14 @@
-﻿using Ardalis.Result;
-using BookWorm.Inventory.Domain;
+﻿using BookWorm.Inventory.Domain;
 using BookWorm.Inventory.Domain.Specifications;
-using BookWorm.SharedKernel.Query;
-using BookWorm.SharedKernel.Repositories;
 
 namespace BookWorm.Inventory.Features.Warehouses.Get;
 
-internal sealed record GetWarehouseQuery(long Id) : IQuery<Result<WareouseDetailDto>>;
+internal sealed record GetWarehouseQuery(long Id) : IQuery<Result<WarehouseDetailDto>>;
 
 internal sealed class GetWarehouseHandler(IReadRepository<Warehouse> repository)
-    : IQueryHandler<GetWarehouseQuery, Result<WareouseDetailDto>>
+    : IQueryHandler<GetWarehouseQuery, Result<WarehouseDetailDto>>
 {
-    public async Task<Result<WareouseDetailDto>> Handle(
+    public async Task<Result<WarehouseDetailDto>> Handle(
         GetWarehouseQuery request,
         CancellationToken cancellationToken
     )

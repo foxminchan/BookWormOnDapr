@@ -1,6 +1,5 @@
 ﻿using System.Data;
 using System.Reflection;
-using BookWorm.Shared.EF;
 using BookWorm.SharedKernel.EF;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

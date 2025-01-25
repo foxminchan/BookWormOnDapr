@@ -35,7 +35,7 @@ namespace BookWorm.Customer.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2025, 1, 18, 9, 32, 36, 517, DateTimeKind.Utc).AddTicks(4302));
+                        .HasDefaultValue(new DateTime(2025, 1, 27, 6, 27, 15, 637, DateTimeKind.Utc).AddTicks(3572));
 
                     b.Property<DateOnly?>("DateOfBirth")
                         .HasColumnType("date");
@@ -56,7 +56,7 @@ namespace BookWorm.Customer.Infrastructure.Migrations
                     b.Property<DateTime?>("LastModifiedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2025, 1, 18, 9, 32, 36, 519, DateTimeKind.Utc).AddTicks(567));
+                        .HasDefaultValue(new DateTime(2025, 1, 27, 6, 27, 15, 639, DateTimeKind.Utc).AddTicks(871));
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -92,7 +92,9 @@ namespace BookWorm.Customer.Infrastructure.Migrations
                                 .HasColumnType("character varying(50)");
 
                             b1.Property<string>("Country")
-                                .HasColumnType("text");
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("character varying(50)");
 
                             b1.Property<string>("State")
                                 .IsRequired()

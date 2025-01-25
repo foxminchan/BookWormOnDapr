@@ -1,7 +1,4 @@
 ﻿using BookWorm.Catalog.Domain.BookAggregate;
-using BookWorm.Constants;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BookWorm.Catalog.Infrastructure.Data.EntityConfigurations;
 

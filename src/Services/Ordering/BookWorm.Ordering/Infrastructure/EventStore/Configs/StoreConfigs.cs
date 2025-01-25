@@ -1,5 +1,4 @@
-﻿using Marten;
-using Marten.Services;
+﻿using Marten.Services;
 using Weasel.Core;
 
 namespace BookWorm.Ordering.Infrastructure.EventStore.Configs;

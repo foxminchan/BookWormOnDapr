@@ -1,6 +1,4 @@
-﻿using Ardalis.Specification;
-
-namespace BookWorm.Customer.Domain.Specifications;
+﻿namespace BookWorm.Customer.Domain.Specifications;
 
 public static class ConsumerSpecExpression
 {

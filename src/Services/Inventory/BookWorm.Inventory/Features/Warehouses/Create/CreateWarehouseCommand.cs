@@ -1,9 +1,5 @@
-﻿using Ardalis.Result;
-using BookWorm.Inventory.Domain;
+﻿using BookWorm.Inventory.Domain;
 using BookWorm.Inventory.Features.Stocks;
-using BookWorm.Shared.EF;
-using BookWorm.SharedKernel.Command;
-using BookWorm.SharedKernel.Repositories;
 
 namespace BookWorm.Inventory.Features.Warehouses.Create;
 
@@ -16,7 +12,7 @@ internal sealed record CreateWarehouseCommand(
 ) : ICommand<Result<long>>;
 
 [TxScope]
-internal sealed record CreateWarehouseHandler(IRepository<Warehouse> Repository)
+internal sealed class CreateWarehouseHandler(IRepository<Warehouse> repository)
     : ICommandHandler<CreateWarehouseCommand, Result<long>>
 {
     public async Task<Result<long>> Handle(
@@ -32,7 +28,7 @@ internal sealed record CreateWarehouseHandler(IRepository<Warehouse> Repository)
             request.Stocks.Select(stock => new Stock(stock.ProductId, stock.Quantity)).ToList()
         );
 
-        var result = await Repository.AddAsync(warehouse, cancellationToken);
+        var result = await repository.AddAsync(warehouse, cancellationToken);
 
         return result.Id;
     }

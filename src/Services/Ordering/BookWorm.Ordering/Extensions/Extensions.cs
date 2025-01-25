@@ -1,25 +1,10 @@
-﻿using System.Text.Json;
-using BookWorm.Ordering.Activities;
+﻿using BookWorm.Ordering.Activities;
 using BookWorm.Ordering.Domain;
 using BookWorm.Ordering.Features;
 using BookWorm.Ordering.Infrastructure.Data;
 using BookWorm.Ordering.Infrastructure.EventStore;
 using BookWorm.Ordering.IntegrationEvents.EventHandlers;
 using BookWorm.Ordering.Workflows;
-using BookWorm.ServiceDefaults;
-using BookWorm.SharedKernel.ActivityScope;
-using BookWorm.SharedKernel.Command;
-using BookWorm.SharedKernel.Converters;
-using BookWorm.SharedKernel.Endpoints;
-using BookWorm.SharedKernel.EventBus;
-using BookWorm.SharedKernel.EventBus.Abstractions;
-using BookWorm.SharedKernel.Exceptions;
-using BookWorm.SharedKernel.Pipelines;
-using BookWorm.SharedKernel.Query;
-using BookWorm.SharedKernel.Versioning;
-using Dapr.Workflow;
-using FluentValidation;
-using Marten.Events.Projections;
 
 namespace BookWorm.Ordering.Extensions;
 
@@ -28,6 +13,8 @@ internal static class Extensions
     public static void AddApplicationServices(this IHostApplicationBuilder builder)
     {
         builder.AddServiceDefaults();
+
+        builder.AddDefaultAuthentication();
 
         builder.AddVersioning();
 
@@ -71,7 +58,6 @@ internal static class Extensions
 
         builder.AddPersistence();
 
-        builder.Services.AddDaprWorkflowClient();
         builder.Services.AddDaprWorkflow(options =>
         {
             // Register the workflow(s) with the Dapr runtime.
@@ -79,7 +65,7 @@ internal static class Extensions
             options.RegisterWorkflow<OrderApprovalSubWorkflow>();
 
             // These are the activities that get invoked by the workflow(s).
-            options.RegisterActivity<GetProductInfomationActivity>();
+            options.RegisterActivity<GetProductInformationActivity>();
             options.RegisterActivity<NotifyActivity>();
             options.RegisterActivity<PlaceOrderActivity>();
             options.RegisterActivity<RequestApprovalActivity>();

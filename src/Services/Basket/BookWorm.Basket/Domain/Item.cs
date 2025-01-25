@@ -1,11 +1,7 @@
-﻿using Ardalis.GuardClauses;
+﻿namespace BookWorm.Basket.Domain;
 
-namespace BookWorm.Basket.Domain;
-
-public sealed class Item
+public sealed class Item()
 {
-    public Item() { }
-
     public Guid Id { get; set; }
     public int Quantity { get; set; }
 

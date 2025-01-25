@@ -1,7 +1,5 @@
 ﻿using BookWorm.Basket.IntegrationEvents.EventHandlers;
 using BookWorm.Basket.IntegrationEvents.Events;
-using BookWorm.Constants;
-using BookWorm.SharedKernel.Endpoints;
 using Dapr;
 
 namespace BookWorm.Basket.Subscribers;
@@ -12,8 +10,8 @@ internal sealed class UserCheckoutCompleteSubscriber
         OrderStatusChangedToNewIntegrationEvent
     >
 {
-    public TopicOptions topicOptions { get; set; } =
-        new TopicOptions
+    public TopicOptions TopicOptions { get; set; } =
+        new()
         {
             PubsubName = ServiceName.Component.Pubsub,
             Name = nameof(OrderStatusChangedToNewIntegrationEvent),
@@ -22,13 +20,13 @@ internal sealed class UserCheckoutCompleteSubscriber
     public void MapIntegrationEventEndpoint(IEndpointRouteBuilder app)
     {
         app.MapPost(
-                $"/{topicOptions.Name}",
+                $"/{TopicOptions.Name}",
                 async (
                     OrderStatusChangedToNewIntegrationEventHandler handler,
                     OrderStatusChangedToNewIntegrationEvent @event
                 ) => await HandleAsync(handler, @event)
             )
-            .WithTopic(topicOptions)
+            .WithTopic(TopicOptions)
             .ExcludeFromDescription();
     }
 

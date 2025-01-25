@@ -1,8 +1,5 @@
 ﻿using BookWorm.Customer.Domain;
-using BookWorm.SharedKernel.Endpoints;
-using BookWorm.SharedKernel.Models;
-using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
+using BookWorm.SharedKernel.Core;
 
 namespace BookWorm.Customer.Features.Create;
 
