@@ -17,12 +17,15 @@ namespace BookWorm.ServiceDefaults;
 // To learn more about using this project, see https://aka.ms/dotnet/aspire/service-defaults
 public static class Extensions
 {
-    public static TBuilder AddServiceDefaults<TBuilder>(this TBuilder builder)
+    public static TBuilder AddServiceDefaults<TBuilder>(
+        this TBuilder builder,
+        Action<IHealthChecksBuilder>? cfgHcAction = null
+    )
         where TBuilder : IHostApplicationBuilder
     {
         builder.ConfigureOpenTelemetry();
 
-        builder.AddDefaultHealthChecks();
+        builder.AddDefaultHealthChecks(cfgHcAction);
 
         builder.Services.AddServiceDiscovery();
 
@@ -91,7 +94,8 @@ public static class Extensions
     }
 
     public static IHostApplicationBuilder AddDefaultHealthChecks(
-        this IHostApplicationBuilder builder
+        this IHostApplicationBuilder builder,
+        Action<IHealthChecksBuilder>? cfgHcAction = null
     )
     {
         var healthChecksConfiguration = builder.Configuration.GetSection(nameof(HealthChecks));
@@ -108,6 +112,7 @@ public static class Extensions
         var healthChecksExpireAfter =
             healthChecksConfiguration.GetValue<TimeSpan?>("ExpireAfter")
             ?? TimeSpan.FromSeconds(10);
+
         builder.Services.AddOutputCache(caching =>
             caching.AddPolicy(
                 nameof(HealthChecks),
@@ -115,10 +120,12 @@ public static class Extensions
             )
         );
 
-        builder
+        var hc = builder
             .Services.AddHealthChecks()
             // Add a default liveness check to ensure app is responsive
             .AddCheck("self", () => HealthCheckResult.Healthy(), ["live"]);
+
+        cfgHcAction?.Invoke(hc);
 
         return builder;
     }
@@ -151,7 +158,6 @@ public static class Extensions
         {
             // Ensure that the HealthChecksUI endpoint is only accessible from configured hosts, e.g. localhost:12345, hub.docker.internal, etc.
             // as it contains more detailed information about the health of the app including the types of dependencies it has.
-
             healthChecks
                 .MapHealthChecks(
                     path,
@@ -170,7 +176,6 @@ public static class Extensions
     {
         // Given a value like "localhost:12345/healthz;hub.docker.internal:12345/healthz" return a dictionary like:
         // { { "healthz", [ "localhost:12345", "hub.docker.internal:12345" ] } }
-
         var uris = healthChecksUrls
             .Split(';', StringSplitOptions.RemoveEmptyEntries)
             .Select(url => new Uri(url, UriKind.Absolute))

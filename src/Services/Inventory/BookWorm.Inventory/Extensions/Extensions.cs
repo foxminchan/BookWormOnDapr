@@ -6,15 +6,18 @@ internal static class Extensions
 {
     public static void AddApplicationServices(this IHostApplicationBuilder builder)
     {
-        builder.AddServiceDefaults();
+        builder.Services.AddDaprClient();
+
+        builder.AddServiceDefaults(checksBuilder =>
+        {
+            checksBuilder.AddDaprHealthCheck();
+        });
 
         builder.AddDefaultAuthentication();
 
         builder.AddVersioning();
 
         builder.AddOpenApi();
-
-        builder.Services.AddDaprClient();
 
         builder.Services.AddEndpoints(typeof(IInventoryApiMarker));
 

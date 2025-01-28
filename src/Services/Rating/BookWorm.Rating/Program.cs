@@ -18,6 +18,4 @@ var apiVersionSet = app.NewApiVersionSet().HasApiVersion(new(1, 0)).ReportApiVer
 
 app.MapEndpoints(apiVersionSet);
 
-app.UseHttpsRedirection();
-
 app.Run();

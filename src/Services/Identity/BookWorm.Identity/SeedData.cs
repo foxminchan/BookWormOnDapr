@@ -36,7 +36,7 @@ public sealed class SeedData
                 Email = "admin@bookworm.com",
                 EmailConfirmed = true,
                 PhoneNumber = "1234567890",
-                PhoneNumberConfirmed = true
+                PhoneNumberConfirmed = true,
             };
 
             var result = userMgr.CreateAsync(adminUser, "P@ssw0rd123").Result;
@@ -52,7 +52,7 @@ public sealed class SeedData
                     [
                         new(JwtClaimTypes.Name, "Admin"),
                         new(JwtClaimTypes.WebSite, "http://bookworm.com"),
-                        new(JwtClaimTypes.Locale, "en-US")
+                        new(JwtClaimTypes.Locale, "en-US"),
                     ]
                 )
                 .Result;
@@ -86,7 +86,7 @@ public sealed class SeedData
                 Email = "customer@bookworm.com",
                 EmailConfirmed = true,
                 PhoneNumber = "9876543210",
-                PhoneNumberConfirmed = true
+                PhoneNumberConfirmed = true,
             };
             var result = userMgr.CreateAsync(customerUser, "P@ssw0rd123").Result;
 
@@ -101,7 +101,7 @@ public sealed class SeedData
                     [
                         new(JwtClaimTypes.Name, "Customer"),
                         new(JwtClaimTypes.WebSite, "http://bookworm.com"),
-                        new(JwtClaimTypes.Locale, "en-US")
+                        new(JwtClaimTypes.Locale, "en-US"),
                     ]
                 )
                 .Result;

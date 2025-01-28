@@ -24,6 +24,4 @@ app.MapIntegrationEvents();
 
 app.MapSubscribeHandler();
 
-app.UseHttpsRedirection();
-
 app.Run();

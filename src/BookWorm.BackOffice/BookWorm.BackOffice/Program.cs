@@ -29,8 +29,6 @@ else
 
 app.MapDefaultEndpoints();
 
-app.UseHttpsRedirection();
-
 app.UseAntiforgery();
 
 app.MapStaticAssets();

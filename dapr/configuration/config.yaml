@@ -10,3 +10,7 @@ spec:
       endpointAddress: http://localhost:9411/api/v2/spans
   metric:
     enabled: true
+  httpPipeline:
+    handlers:
+      - name: ratelimit
+        type: middleware.http.ratelimit

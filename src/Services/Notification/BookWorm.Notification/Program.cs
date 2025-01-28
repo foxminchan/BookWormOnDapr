@@ -8,6 +8,4 @@ var app = builder.Build();
 
 app.MapDefaultEndpoints();
 
-app.UseHttpsRedirection();
-
 app.Run();
