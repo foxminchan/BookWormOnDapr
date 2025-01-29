@@ -1,30 +1,34 @@
-﻿using BookWorm.Basket.Domain;
+﻿using System.Security.Claims;
+using BookWorm.Basket.Domain;
 
 namespace BookWorm.Basket.Features.Get;
 
 internal sealed class GetBasketEndpoint
-    : IEndpoint<Results<Ok<Card>, NotFound<ProblemDetails>>, Guid, ISender>
+    : IEndpoint<Results<Ok<Card>, NotFound<ProblemDetails>>, ClaimsPrincipal, ISender>
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app.MapGet(
-                "/baskets/{id:guid}",
-                async ([Description("The basket id")] Guid id, ISender sender) =>
-                    await HandleAsync(id, sender)
+                "/baskets",
+                async (ClaimsPrincipal claimsPrincipal, ISender sender) =>
+                    await HandleAsync(claimsPrincipal, sender)
             )
             .Produces<Card>()
             .ProducesProblem(StatusCodes.Status404NotFound)
             .WithOpenApi()
             .WithTags(nameof(Basket))
-            .MapToApiVersion(new(1, 0));
+            .MapToApiVersion(new(1, 0))
+            .RequireAuthorization();
     }
 
     public async Task<Results<Ok<Card>, NotFound<ProblemDetails>>> HandleAsync(
-        Guid id,
+        ClaimsPrincipal claimsPrincipal,
         ISender sender,
         CancellationToken cancellationToken = default
     )
     {
+        var id = Guid.Parse(claimsPrincipal.GetCustomerId());
+
         var result = await sender.Send(new GetBasketQuery(id), cancellationToken);
 
         return result.Status == ResultStatus.NotFound

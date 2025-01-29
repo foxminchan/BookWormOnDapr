@@ -1,5 +1,4 @@
 ﻿using BookWorm.Ordering.Domain.Events;
-using BookWorm.SharedKernel.Core;
 
 namespace BookWorm.Ordering.Domain;
 

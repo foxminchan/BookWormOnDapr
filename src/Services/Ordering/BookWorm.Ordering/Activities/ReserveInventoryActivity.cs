@@ -1,6 +1,4 @@
-﻿using Dapr.Client;
-
-namespace BookWorm.Ordering.Activities;
+﻿namespace BookWorm.Ordering.Activities;
 
 internal sealed record InventoryResult(bool IsAvailable, Dictionary<Guid, int> UnavailableItems);
 

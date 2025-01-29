@@ -1,6 +1,4 @@
-﻿using Ardalis.Specification.EntityFrameworkCore;
-
-namespace BookWorm.Catalog.Infrastructure.Data;
+﻿namespace BookWorm.Catalog.Infrastructure.Data;
 
 public sealed class CatalogRepository<T>(CatalogDbContext dbContext)
     : RepositoryBase<T>(dbContext),

@@ -4,6 +4,7 @@ using BookWorm.Ordering.Domain.Specifications;
 namespace BookWorm.Ordering.Features.List;
 
 internal sealed record ListOrdersQuery(
+    [property: JsonIgnore] Guid CustomerId,
     [property: Description("Number of items to return in a single page of results")]
     [property: DefaultValue(Pagination.DefaultPageIndex)]
         int PageIndex = Pagination.DefaultPageIndex,
@@ -21,7 +22,7 @@ internal sealed class ListOrdersHandler(IReadRepository<Order> repository)
     )
     {
         var orders = repository.ListAsync(
-            new OrderFilterSpec(request.PageIndex, request.PageSize),
+            new OrderFilterSpec(request.PageIndex, request.PageSize, request.CustomerId),
             cancellationToken
         );
 

@@ -36,6 +36,7 @@ public static class AuthenticationExtensions
             });
 
         builder.Services.AddAuthorization();
+        builder.Services.AddHttpContextAccessor();
 
         return builder;
     }

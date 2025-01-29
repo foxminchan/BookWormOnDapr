@@ -1,5 +1,6 @@
 ﻿using BookWorm.Catalog.Infrastructure.Blob;
 using BookWorm.Catalog.Infrastructure.Data;
+using BookWorm.Catalog.IntegrationEvents.EventHandlers;
 
 namespace BookWorm.Catalog.Extensions;
 
@@ -56,5 +57,9 @@ internal static class Extensions
         builder.AddPersistence();
 
         builder.AddAzureBlobClient(ServiceName.Blob);
+
+        builder.Services.AddScoped<IEventBus, DaprEventBus>();
+        builder.Services.AddScoped<RatingAddedIntegrationEventHandler>();
+        builder.Services.AddScoped<RatingDeletedIntegrationEventHandler>();
     }
 }

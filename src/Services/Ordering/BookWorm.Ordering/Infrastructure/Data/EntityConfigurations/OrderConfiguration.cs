@@ -1,5 +1,4 @@
 ﻿using BookWorm.Ordering.Domain;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BookWorm.Ordering.Infrastructure.Data.EntityConfigurations;
 

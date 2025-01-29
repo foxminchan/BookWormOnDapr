@@ -1,7 +1,4 @@
-﻿using Azure.Storage.Blobs;
-using Azure.Storage.Blobs.Models;
-
-namespace BookWorm.Catalog.Infrastructure.Blob;
+﻿namespace BookWorm.Catalog.Infrastructure.Blob;
 
 public sealed class BlobService(BlobServiceClient client) : IBlobService
 {

@@ -10,13 +10,14 @@ var builder = DistributedApplication.CreateBuilder(args);
 var postgresUser = builder.AddParameter("SqlUser", true);
 var postgresPassword = builder.AddParameter("SqlPassword", true);
 
-var launchProfileName = builder.Configuration["DOTNET_LAUNCH_PROFILE"] ?? "https";
+const string appProtocol = "https";
+var launchProfileName = builder.Configuration["DOTNET_LAUNCH_PROFILE"] ?? appProtocol;
 
 const string baseDir = "../../..";
 
 var postgres = builder
     .AddPostgres("postgres", postgresUser, postgresPassword, 5432)
-    .WithPgWeb()
+    .WithPgAdmin()
     .WithDataBindMount($"{baseDir}/mnt/postgres")
     .WithLifetime(ContainerLifetime.Persistent);
 
@@ -61,7 +62,7 @@ var pubSub = builder
 
 var daprOptions = new DaprSidecarOptions
 {
-    AppProtocol = "https",
+    AppProtocol = appProtocol,
     LogLevel = nameof(LogLevel.Debug).ToLowerInvariant(),
     Config = Path.Combine(
         Directory.GetCurrentDirectory(),
@@ -81,6 +82,7 @@ var identityApi = builder
     .WithReference(pubSub)
     .WaitFor(identityDb);
 
+const string identityUrl = "Identity__Url";
 var identityEndpoint = identityApi.GetEndpoint(launchProfileName);
 
 var catalogApi = builder
@@ -91,42 +93,52 @@ var catalogApi = builder
     .WithReference(pubSub)
     .WaitFor(blobs)
     .WaitFor(catalogDb)
-    .WithEnvironment("Identity__Url", identityEndpoint)
+    .WithEnvironment(identityUrl, identityEndpoint)
     .WaitFor(identityApi);
 
 var basketApi = builder
     .AddProject<BookWorm_Basket>(ServiceName.App.Basket)
     .WithDaprSidecar(o => o.WithOptions(daprOptions with { DaprHttpPort = 3700 }))
     .WithReference(pubSub)
-    .WithReference(stateStore);
+    .WithReference(stateStore)
+    .WithEnvironment(identityUrl, identityEndpoint)
+    .WaitFor(identityApi);
 
 var orderingApi = builder
     .AddProject<BookWorm_Ordering>(ServiceName.App.Ordering)
     .WithDaprSidecar(o => o.WithOptions(daprOptions with { DaprHttpPort = 3800 }))
     .WithReference(orderingDb)
     .WithReference(pubSub)
-    .WaitFor(orderingDb);
+    .WaitFor(orderingDb)
+    .WithEnvironment(identityUrl, identityEndpoint)
+    .WaitFor(identityApi);
 
 var ratingApi = builder
     .AddProject<BookWorm_Rating>(ServiceName.App.Rating)
     .WithDaprSidecar(o => o.WithOptions(daprOptions with { DaprHttpPort = 3900 }))
     .WithReference(ratingDb)
     .WithReference(pubSub)
-    .WaitFor(ratingDb);
+    .WaitFor(ratingDb)
+    .WithEnvironment(identityUrl, identityEndpoint)
+    .WaitFor(identityApi);
 
 var customerApi = builder
     .AddProject<BookWorm_Customer>(ServiceName.App.Customer)
     .WithDaprSidecar(o => o.WithOptions(daprOptions with { DaprHttpPort = 4000 }))
     .WithReference(customerDb)
     .WithReference(pubSub)
-    .WaitFor(customerDb);
+    .WaitFor(customerDb)
+    .WithEnvironment(identityUrl, identityEndpoint)
+    .WaitFor(identityApi);
 
 var inventoryApi = builder
     .AddProject<BookWorm_Inventory>(ServiceName.App.Inventory)
     .WithDaprSidecar(o => o.WithOptions(daprOptions with { DaprHttpPort = 4100 }))
     .WithReference(inventoryDb)
     .WithReference(pubSub)
-    .WaitFor(inventoryDb);
+    .WaitFor(inventoryDb)
+    .WithEnvironment(identityUrl, identityEndpoint)
+    .WaitFor(identityApi);
 
 var paymentApi = builder
     .AddProject<BookWorm_Payment>(ServiceName.App.Payment)

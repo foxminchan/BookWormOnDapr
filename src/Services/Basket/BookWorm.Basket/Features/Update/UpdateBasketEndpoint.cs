@@ -1,13 +1,19 @@
-﻿namespace BookWorm.Basket.Features.Update;
+﻿using System.Security.Claims;
 
-internal sealed class UpdateBasketEndpoint : IEndpoint<NoContent, UpdateBasketCommand, ISender>
+namespace BookWorm.Basket.Features.Update;
+
+internal sealed class UpdateBasketEndpoint
+    : IEndpoint<NoContent, UpdateBasketCommand, ClaimsPrincipal, ISender>
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app.MapPut(
                 "/basket",
-                async (UpdateBasketCommand command, ISender sender) =>
-                    await HandleAsync(command, sender)
+                async (
+                    UpdateBasketCommand command,
+                    ClaimsPrincipal claimsPrincipal,
+                    ISender sender
+                ) => await HandleAsync(command, claimsPrincipal, sender)
             )
             .Produces(StatusCodes.Status204NoContent)
             .ProducesValidationProblem()
@@ -19,11 +25,14 @@ internal sealed class UpdateBasketEndpoint : IEndpoint<NoContent, UpdateBasketCo
 
     public async Task<NoContent> HandleAsync(
         UpdateBasketCommand command,
+        ClaimsPrincipal claimsPrincipal,
         ISender sender,
         CancellationToken cancellationToken = default
     )
     {
-        await sender.Send(command, cancellationToken);
+        var customerId = Guid.Parse(claimsPrincipal.GetCustomerId());
+
+        await sender.Send(command with { CustomerId = customerId }, cancellationToken);
 
         return TypedResults.NoContent();
     }

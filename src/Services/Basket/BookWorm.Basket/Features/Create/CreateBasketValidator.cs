@@ -4,8 +4,6 @@ internal sealed class CreateBasketValidator : AbstractValidator<CreateBasketComm
 {
     public CreateBasketValidator()
     {
-        RuleFor(x => x.CustomerId).NotEmpty();
-
         RuleFor(x => x.Items)
             .NotEmpty()
             .ForEach(x =>
