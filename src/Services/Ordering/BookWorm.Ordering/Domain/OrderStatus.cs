@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace BookWorm.Ordering.Domain;
+﻿namespace BookWorm.Ordering.Domain;
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum OrderStatus : byte

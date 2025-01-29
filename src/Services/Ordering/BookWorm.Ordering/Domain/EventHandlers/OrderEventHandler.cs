@@ -2,7 +2,7 @@
 using BookWorm.Ordering.Extensions;
 using BookWorm.Ordering.Infrastructure.EventStore.DocumentSession;
 
-namespace BookWorm.Ordering.Domain.EventHandler;
+namespace BookWorm.Ordering.Domain.EventHandlers;
 
 public class OrderEventHandler(IDocumentSession documentSession, ILogger<OrderEventHandler> logger)
     : INotificationHandler<OrderPlacedEvent>,

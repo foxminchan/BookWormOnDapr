@@ -1,14 +1,17 @@
 ﻿namespace BookWorm.Ordering.Features.List;
 
 internal sealed class ListOrdersEndpoint
-    : IEndpoint<Ok<PagedResult<IReadOnlyList<OrderDto>>>, ListOrdersQuery, ISender>
+    : IEndpoint<Ok<PagedResult<IReadOnlyList<OrderDto>>>, ListOrdersQuery, ClaimsPrincipal, ISender>
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app.MapGet(
                 "/orders",
-                async ([AsParameters] ListOrdersQuery query, ISender sender) =>
-                    await HandleAsync(query, sender)
+                async (
+                    [AsParameters] ListOrdersQuery query,
+                    ClaimsPrincipal claimsPrincipal,
+                    ISender sender
+                ) => await HandleAsync(query, claimsPrincipal, sender)
             )
             .ProducesValidationProblem()
             .Produces<PagedResult<IReadOnlyList<OrderDto>>>()
@@ -19,11 +22,14 @@ internal sealed class ListOrdersEndpoint
 
     public async Task<Ok<PagedResult<IReadOnlyList<OrderDto>>>> HandleAsync(
         ListOrdersQuery query,
+        ClaimsPrincipal claimsPrincipal,
         ISender sender,
         CancellationToken cancellationToken = default
     )
     {
-        var result = await sender.Send(query, cancellationToken);
+        var customerId = Guid.Parse(claimsPrincipal.GetCustomerId());
+
+        var result = await sender.Send(query with { CustomerId = customerId }, cancellationToken);
 
         return TypedResults.Ok(result);
     }

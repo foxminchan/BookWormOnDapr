@@ -79,4 +79,9 @@ public sealed class ConsumerFilterSpec : Specification<Consumer>
     {
         Query.Where(x => x.Id == id && !x.IsDeleted);
     }
+
+    public ConsumerFilterSpec(Guid[] ids)
+    {
+        Query.Where(x => ids.Contains(x.Id) && !x.IsDeleted);
+    }
 }

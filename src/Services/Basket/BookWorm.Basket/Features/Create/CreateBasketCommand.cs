@@ -1,8 +1,9 @@
-﻿using BookWorm.Basket.Domain;
+﻿using System.Text.Json.Serialization;
+using BookWorm.Basket.Domain;
 
 namespace BookWorm.Basket.Features.Create;
 
-internal sealed record CreateBasketCommand(Guid CustomerId, List<Item> Items)
+internal sealed record CreateBasketCommand([property: JsonIgnore] Guid CustomerId, List<Item> Items)
     : ICommand<Result<Guid>>;
 
 internal sealed class CreateBasketHandler(IBasketRepository repository)
@@ -15,8 +16,8 @@ internal sealed class CreateBasketHandler(IBasketRepository repository)
     {
         var card = new Card(request.CustomerId, request.Items);
 
-        var customerId = await repository.CreateAsync(card, cancellationToken);
+        var id = await repository.CreateAsync(card, cancellationToken);
 
-        return customerId;
+        return id;
     }
 }

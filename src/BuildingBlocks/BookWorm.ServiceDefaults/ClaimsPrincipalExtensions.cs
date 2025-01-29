@@ -12,4 +12,7 @@ public static class ClaimsPrincipalExtensions
 
     public static string? GetUserRole(this ClaimsPrincipal principal) =>
         principal.FindFirstValue(ClaimTypes.Role);
+
+    public static string GetCustomerId(this ClaimsPrincipal principal) =>
+        principal.FindFirstValue("CustomerId") ?? Guid.Empty.ToString();
 }

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace BookWorm.Ordering.Features.Get;
+﻿namespace BookWorm.Ordering.Features.Get;
 
 internal sealed class GetOrderEndpoint
     : IEndpoint<Results<Ok<OrderDetailDto>, NotFound<ProblemDetails>>, Guid, ISender>

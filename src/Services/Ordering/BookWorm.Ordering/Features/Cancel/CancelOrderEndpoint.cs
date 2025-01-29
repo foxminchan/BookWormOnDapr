@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace BookWorm.Ordering.Features.Cancel;
+﻿namespace BookWorm.Ordering.Features.Cancel;
 
 internal sealed class CancelOrderEndpoint
     : IEndpoint<Results<NoContent, NotFound<ProblemDetails>>, Guid, ISender>

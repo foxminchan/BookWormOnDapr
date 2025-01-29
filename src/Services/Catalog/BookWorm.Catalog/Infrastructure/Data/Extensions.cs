@@ -1,7 +1,5 @@
-﻿using Bogus;
-using BookWorm.Catalog.Domain;
+﻿using BookWorm.Catalog.Domain;
 using BookWorm.Catalog.Domain.BookAggregate;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace BookWorm.Catalog.Infrastructure.Data;
 

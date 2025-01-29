@@ -3,7 +3,7 @@ using BookWorm.Ordering.Workflows;
 
 namespace BookWorm.Ordering.IntegrationEvents.EventHandlers;
 
-public sealed class UserCheckoutIntegrationEventHandler(DaprWorkflowClient daprWorkflowClient)
+public sealed class UserCheckedOutIntegrationEventHandler(DaprWorkflowClient daprWorkflowClient)
     : IIntegrationEventHandler<UserCheckedOutIntegrationEvent>
 {
     public async Task Handle(UserCheckedOutIntegrationEvent @event)

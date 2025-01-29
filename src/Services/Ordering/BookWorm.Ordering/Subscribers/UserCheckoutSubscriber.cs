@@ -5,7 +5,7 @@ using Dapr;
 namespace BookWorm.Ordering.Subscribers;
 
 internal sealed class UserCheckoutSubscriber
-    : ISubscriber<UserCheckoutIntegrationEventHandler, UserCheckedOutIntegrationEvent>
+    : ISubscriber<UserCheckedOutIntegrationEventHandler, UserCheckedOutIntegrationEvent>
 {
     public TopicOptions TopicOptions { get; set; } =
         new()
@@ -19,7 +19,7 @@ internal sealed class UserCheckoutSubscriber
         app.MapPost(
                 $"/{TopicOptions.Name}",
                 async (
-                    UserCheckoutIntegrationEventHandler handler,
+                    UserCheckedOutIntegrationEventHandler handler,
                     UserCheckedOutIntegrationEvent @event
                 ) => await HandleAsync(handler, @event)
             )
@@ -28,7 +28,7 @@ internal sealed class UserCheckoutSubscriber
     }
 
     public async Task HandleAsync(
-        UserCheckoutIntegrationEventHandler handler,
+        UserCheckedOutIntegrationEventHandler handler,
         UserCheckedOutIntegrationEvent @event,
         CancellationToken cancellationToken = default
     )

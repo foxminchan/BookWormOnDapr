@@ -1,8 +1,10 @@
-﻿using BookWorm.Basket.Domain;
+﻿using System.Text.Json.Serialization;
+using BookWorm.Basket.Domain;
 
 namespace BookWorm.Basket.Features.Update;
 
-internal sealed record UpdateBasketCommand(Guid CustomerId, List<Item> Items) : ICommand;
+internal sealed record UpdateBasketCommand([property: JsonIgnore] Guid CustomerId, List<Item> Items)
+    : ICommand;
 
 internal sealed class UpdateBasketHandler(IBasketRepository repository)
     : ICommandHandler<UpdateBasketCommand>

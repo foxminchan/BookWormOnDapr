@@ -1,28 +1,33 @@
-﻿namespace BookWorm.Basket.Features.Delete;
+﻿using System.Security.Claims;
+
+namespace BookWorm.Basket.Features.Delete;
 
 internal sealed class DeleteBasketEndpoint
-    : IEndpoint<Results<NoContent, NotFound<ProblemDetails>>, Guid, ISender>
+    : IEndpoint<Results<NoContent, NotFound<ProblemDetails>>, ClaimsPrincipal, ISender>
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app.MapDelete(
-                "/baskets/{id:guid}",
-                async ([Description("The basket id")] Guid id, ISender sender) =>
-                    await HandleAsync(id, sender)
+                "/baskets",
+                async (ClaimsPrincipal claimsPrincipal, ISender sender) =>
+                    await HandleAsync(claimsPrincipal, sender)
             )
             .Produces(StatusCodes.Status204NoContent)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .WithOpenApi()
             .WithTags(nameof(Basket))
-            .MapToApiVersion(new(1, 0));
+            .MapToApiVersion(new(1, 0))
+            .RequireAuthorization();
     }
 
     public async Task<Results<NoContent, NotFound<ProblemDetails>>> HandleAsync(
-        Guid id,
+        ClaimsPrincipal claimsPrincipal,
         ISender sender,
         CancellationToken cancellationToken = default
     )
     {
+        var id = Guid.Parse(claimsPrincipal.GetCustomerId());
+
         var result = await sender.Send(new DeleteBasketCommand(id), cancellationToken);
 
         return result.Status == ResultStatus.NotFound

@@ -76,7 +76,7 @@ internal static class Extensions
         });
 
         builder.Services.AddScoped<IEventBus, DaprEventBus>();
-        builder.Services.AddScoped<UserCheckoutIntegrationEventHandler>();
+        builder.Services.AddScoped<UserCheckedOutIntegrationEventHandler>();
 
         builder.AddEventStore(configureOptions: options =>
         {

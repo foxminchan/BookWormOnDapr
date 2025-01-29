@@ -21,6 +21,6 @@ public sealed class DaprHealthCheck(DaprClient daprClient) : IHealthCheck
 
 public static class DaprHealthCheckExtensions
 {
-    public static IHealthChecksBuilder AddDaprHealthCheck(this IHealthChecksBuilder builder) 
-        => builder.AddCheck<DaprHealthCheck>(nameof(Dapr));
+    public static IHealthChecksBuilder AddDaprHealthCheck(this IHealthChecksBuilder builder) =>
+        builder.AddCheck<DaprHealthCheck>(nameof(Dapr));
 }

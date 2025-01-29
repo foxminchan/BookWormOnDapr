@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace BookWorm.Ordering.Contracts;
+﻿namespace BookWorm.Ordering.Contracts;
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum Approval
