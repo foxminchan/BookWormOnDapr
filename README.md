@@ -24,7 +24,7 @@
 - [x] Using Vertical Slice Architecture to organize the codebase
 - [x] Using Duende IdentityServer for authentication and authorization
 - [x] Using Kafka for pub/sub messaging
-- [ ] Using NUKE for build automation
+- [x] Using NUKE for build automation
 - [ ] Integrating LLM with the application
   - [ ] Leveraging the [Microsoft.Extensions.AI](https://learn.microsoft.com/en-us/dotnet/ai/ai-extensions)
   - [ ] Using Ollama with DeepSeek R2 model
@@ -173,6 +173,9 @@ dotnet run --project src/BuildingBlocks/BookWorm.AppHost/BookWorm.AppHost.csproj
 
 > [!WARNING]
 > Ensure that you have Docker running on your machine.
+
+> [!TIP]
+> You run `dotnet nuke` to build and test the project.
 
 ## Contributing
 

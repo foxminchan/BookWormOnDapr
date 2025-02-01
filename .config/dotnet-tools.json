@@ -21,6 +21,11 @@
       "version": "0.30.3",
       "commands": ["dotnet-csharpier"],
       "rollForward": false
+    },
+    "nuke.globaltool": {
+      "version": "9.0.4",
+      "commands": ["nuke"],
+      "rollForward": false
     }
   }
 }
