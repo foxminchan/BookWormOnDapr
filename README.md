@@ -174,6 +174,9 @@ dotnet run --project src/BuildingBlocks/BookWorm.AppHost/BookWorm.AppHost.csproj
 > [!WARNING]
 > Ensure that you have Docker running on your machine.
 
+> [!TIP]
+> You run `dotnet nuke` to build and test the project.
+
 ## Contributing
 
 - Fork the repository
